@@ -1,0 +1,51 @@
+# Bytecode de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de entorno virtual
+venv/
+env/
+.virtualenv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Archivos de configuración del entorno
+.env
+.env.local
+*.secret
+*.token
+
+# Configuración de bases de datos
+db.sqlite3
+*.sqlite3
+*.db
+
+# Migraciones de Django
+**/migrations/*
+!**/migrations/__init__.py
+
+# Archivos estáticos y de cache de Django
+staticfiles/
+media/
+static/
+*.log
+
+# Archivos de IDEs y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de dependencia
+Pipfile
+Pipfile.lock
+poetry.lock
+*.egg-info/
+*.egg
+dist/
+build/
+site/
+
+# Archivos de Docker
+docker-compose.override.yml
