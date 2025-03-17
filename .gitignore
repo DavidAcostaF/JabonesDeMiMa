@@ -6,6 +6,8 @@ __pycache__/
 # Archivos de entorno virtual
 venv/
 env/
+ENV/
+.venv/
 .virtualenv/
 pip-log.txt
 pip-delete-this-directory.txt
@@ -28,7 +30,6 @@ db.sqlite3
 # Archivos estáticos y de cache de Django
 staticfiles/
 media/
-static/
 *.log
 
 # Archivos de IDEs y editores
