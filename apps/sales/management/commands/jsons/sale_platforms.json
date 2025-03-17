@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Amazon",
+        "url": "https://www.amazon.com.mx"
+    },
+    {
+        "name": "Mercado Libre",
+        "url": "https://www.mercadolibre.com.mx/"
+    },
+    {
+        "name": "Shopify",
+        "url": "https://www.shopify.com"
+    }
+]

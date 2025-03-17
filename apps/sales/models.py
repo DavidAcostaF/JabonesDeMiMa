@@ -5,7 +5,7 @@ from apps.users.models import User
 class SalePlatform(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-
+    url = models.URLField()
     class Meta:
         db_table = 'sale_platform'
         verbose_name = 'Sale Platform'
