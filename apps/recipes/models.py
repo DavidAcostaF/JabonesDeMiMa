@@ -7,6 +7,12 @@ class Ingredient(models.Model):
     measure_unit = models.CharField(max_length=100)
     stock = models.IntegerField()
 
+    class Meta:
+        db_table = 'ingredient'
+        verbose_name = 'Ingredient'
+        verbose_name_plural = 'Ingredients'
+        ordering = ['id']
+
     def __str__(self):
         return self.name
 
@@ -15,6 +21,12 @@ class RecipeDetail(models.Model):
     product = models.ForeignKey('products.Product', on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     amount = models.IntegerField()
+
+    class Meta:
+        db_table = 'recipe_detail'
+        verbose_name = 'Recipe Detail'
+        verbose_name_plural = 'Recipe Details'
+        ordering = ['id']
 
     def __str__(self):
         return f"RecipeDetail {self.id}"

@@ -11,9 +11,14 @@ class Purchase(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
+    class Meta:
+        db_table = 'purchases_purchase'
+        verbose_name = 'Purchase'
+        verbose_name_plural = 'Purchases'
+        ordering = ['id']
+
     def __str__(self):
         return f"Purchase {self.id}"
-
 class PurchaseDetail(models.Model):
     id = models.AutoField(primary_key=True)
     purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
@@ -21,6 +26,12 @@ class PurchaseDetail(models.Model):
     amount = models.IntegerField()
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        db_table = 'purchase_detail'
+        verbose_name = 'Purchase Detail'
+        verbose_name_plural = 'Purchase Details'
+        ordering = ['id']
 
     def __str__(self):
         return f"PurchaseDetail {self.id}"

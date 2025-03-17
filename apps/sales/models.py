@@ -6,6 +6,12 @@ class SalePlatform(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
 
+    class Meta:
+        db_table = 'sale_platform'
+        verbose_name = 'Sale Platform'
+        verbose_name_plural = 'Sale Platforms'
+        ordering = ['id']
+
     def __str__(self):
         return self.name
 
@@ -19,6 +25,13 @@ class Sale(models.Model):
     platform = models.ForeignKey(SalePlatform, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        db_table = 'sales_sale'
+        verbose_name = 'Sale'
+        verbose_name_plural = 'Sales'
+        ordering = ['id']
+
+
     def __str__(self):
         return f"Sale {self.id}"
 
@@ -29,6 +42,12 @@ class SaleDetail(models.Model):
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     amount = models.IntegerField()
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        db_table = 'sale_detail'
+        verbose_name = 'Sale Detail'
+        verbose_name_plural = 'Sale Details'
+        ordering = ['id']
 
     def __str__(self):
         return f"SaleDetail {self.id}"
