@@ -22,15 +22,15 @@ class Sale(models.Model):
 
     id = models.AutoField(primary_key=True)
     receipt_folio = models.CharField(max_length=100)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=STATUS.choices, default=STATUS.PENDING)
-    sub_total = models.DecimalField(max_digits=10, decimal_places=2)
-    total = models.DecimalField(max_digits=10, decimal_places=2)
+    sub_total = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
     platform = models.ForeignKey(SalePlatform, on_delete=models.CASCADE)
     address = models.CharField(max_length=100)
     tax = models.DecimalField(max_digits=10, decimal_places=2)
     client = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
 
     class Meta:
         db_table = 'sales_sale'
@@ -48,7 +48,7 @@ class SaleDetail(models.Model):
     product = models.ForeignKey('products.Product', on_delete=models.CASCADE)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     amount = models.IntegerField()
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
 
     class Meta:
         db_table = 'sale_detail'

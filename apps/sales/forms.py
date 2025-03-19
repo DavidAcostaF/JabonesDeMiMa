@@ -4,15 +4,14 @@ from .models import Sale,SaleDetail
 class SaleForm(forms.ModelForm):
     class Meta:
         model = Sale
-        fields = ['client', 'tax', 'address', 'total', 'platform',  'receipt_folio', 'status', 'sub_total']
+        fields = ['client', 'tax', 'address', 'platform',  'receipt_folio', 'status']
         widgets = {
             'client': forms.TextInput(attrs={'class': 'form-control'}),
             'tax': forms.NumberInput(attrs={'class': 'form-control'}),
             'address': forms.TextInput(attrs={'class': 'form-control'}),
-            'total': forms.NumberInput(attrs={'class': 'form-control'}),
             'platform': forms.Select(attrs={'class': 'form-control'}),
             'receipt_folio': forms.TextInput(attrs={'class': 'form-control'}),
-            'status': forms.ChoiceField(choices=Sale.STATUS.choices, widget=forms.Select(attrs={'class': 'form-control'})),
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }
 
         # def save(self, commit=True):
@@ -26,11 +25,9 @@ class SaleForm(forms.ModelForm):
 class SaleDetailForm(forms.ModelForm):
     class Meta:
         model = SaleDetail
-        fields = ['sale', 'product', 'unit_price', 'amount', 'total_price']
+        fields = ['product', 'unit_price', 'amount',]
         widgets = {
-            'sale': forms.Select(attrs={'class': 'form-control'}),
             'product': forms.Select(attrs={'class': 'form-control'}),
             'unit_price': forms.NumberInput(attrs={'class': 'form-control'}),
             'amount': forms.NumberInput(attrs={'class': 'form-control'}),
-            'total_price': forms.NumberInput(attrs={'class': 'form-control'}),
         }
