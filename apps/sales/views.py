@@ -41,7 +41,7 @@ class CreateView(CreateView):
         sale.sub_total = total
         sale.total = total + (total * tax)
         sale.save()
-        return JsonResponse({'message': 'Success'})
+        return JsonResponse({'message':'Sale created successfully'}, status=200)
 
 
 
