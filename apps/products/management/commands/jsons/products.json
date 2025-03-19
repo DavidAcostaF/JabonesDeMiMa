@@ -1,0 +1,104 @@
+[
+    {
+        "name": "Vitamina C 1000mg",
+        "price": 150.00,
+        "stock": 200,
+        "category_name": "Vitaminas y Suplementos"
+    },
+    {
+        "name": "Shampoo Hidratante",
+        "price": 80.00,
+        "stock": 150,
+        "category_name": "Cuidado del Cabello"
+    },
+    {
+        "name": "Protector Solar SPF 50",
+        "price": 120.00,
+        "stock": 50,
+        "category_name": "Protección Solar"
+    },
+    {
+        "name": "Multivitamínico 50+",
+        "price": 200.00,
+        "stock": 80,
+        "category_name": "Vitaminas y Suplementos"
+    },
+    {
+        "name": "Crema Antiarrugas",
+        "price": 250.00,
+        "stock": 120,
+        "category_name": "Cuidado de la Piel"
+    },
+    {
+        "name": "Antiinflamatorio Ibuprofeno 200mg",
+        "price": 45.00,
+        "stock": 300,
+        "category_name": "Medicamentos de Venta Libre"
+    },
+    {
+        "name": "Proteina en Polvo",
+        "price": 350.00,
+        "stock": 100,
+        "category_name": "Fitness y Nutrición"
+    },
+    {
+        "name": "Aceite Esencial de Lavanda",
+        "price": 180.00,
+        "stock": 90,
+        "category_name": "Aromaterapia y Relajación"
+    },
+    {
+        "name": "Termómetro Digital para Adultos",
+        "price": 90.00,
+        "stock": 50,
+        "category_name": "Equipos Médicos"
+    },
+    {
+        "name": "Gel Hidratante para la Piel",
+        "price": 120.00,
+        "stock": 180,
+        "category_name": "Cuidado de la Piel"
+    },
+    {
+        "name": "Proteína en Barra",
+        "price": 35.00,
+        "stock": 500,
+        "category_name": "Fitness y Nutrición"
+    },
+    {
+        "name": "Cepillo de Dientes Eléctrico",
+        "price": 250.00,
+        "stock": 60,
+        "category_name": "Salud Bucal"
+    },
+    {
+        "name": "Suplemento de Magnesio",
+        "price": 110.00,
+        "stock": 75,
+        "category_name": "Vitaminas y Suplementos"
+    },
+    {
+        "name": "Aceite de Jojoba para el Cabello",
+        "price": 85.00,
+        "stock": 140,
+        "category_name": "Cuidado del Cabello"
+    },
+    {
+        "name": "Crema para Pies con Aloe Vera",
+        "price": 70.00,
+        "stock": 160,
+        "category_name": "Cuidado de la Piel"
+    },
+    {
+        "name": "Banda Elástica de Resistencia",
+        "price": 150.00,
+        "stock": 200,
+        "category_name": "Fitness y Nutrición"
+    },
+    {
+        "name": "Guantes para Ejercicio",
+        "price": 120.00,
+        "stock": 100,
+        "category_name": "Fitness y Nutrición"
+    }
+]

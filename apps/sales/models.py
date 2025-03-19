@@ -3,7 +3,6 @@ from django.db import models
 from apps.users.models import User
 
 class SalePlatform(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     url = models.URLField()
     class Meta:
@@ -16,13 +15,21 @@ class SalePlatform(models.Model):
         return self.name
 
 class Sale(models.Model):
+    class STATUS(models.TextChoices):
+        PENDING = 'PENDING', 'Pending'
+        COMPLETED = 'COMPLETED', 'Completed'
+        CANCELLED = 'CANCELLED', 'Cancelled'
+
     id = models.AutoField(primary_key=True)
     receipt_folio = models.CharField(max_length=100)
     date = models.DateTimeField()
-    status = models.CharField(max_length=100)
+    status = models.CharField(max_length=10, choices=STATUS.choices, default=STATUS.PENDING)
     sub_total = models.DecimalField(max_digits=10, decimal_places=2)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     platform = models.ForeignKey(SalePlatform, on_delete=models.CASCADE)
+    address = models.CharField(max_length=100)
+    tax = models.DecimalField(max_digits=10, decimal_places=2)
+    client = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
