@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView
+from django.views.generic import CreateView,ListView
 from .forms import SaleForm
 from .models import Sale,SaleDetail,SalePlatform
 from apps.products.models import Product
@@ -32,10 +32,12 @@ class CreateView(CreateView):
             product = Product.objects.get(name=sale_detail['product'])
             unit_price = sale_detail['unit_price']
             amount = sale_detail['amount']
+            product.stock -= amount
+            if product.stock < 0:
+                return JsonResponse({'message':f'Product {product} out of stock'}, status=400)
             sale_detail = SaleDetail.objects.create(product = product, unit_price = unit_price, amount = amount, sale = sale)
             sale_detail.total_price = unit_price * amount
             sale_detail.save()
-            product.stock -= amount
             product.save()
             total += sale_detail.total_price
         sale.sub_total = total
@@ -43,5 +45,10 @@ class CreateView(CreateView):
         sale.save()
         return JsonResponse({'message':'Sale created successfully'}, status=200)
 
+@method_decorator(csrf_exempt, name='dispatch')
+class ListView(ListView):
+    template_name = 'sales/sale_list.html'
+    model = Sale
 
-
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({'sales':list(Sale.objects.all().values())}, status=200)
