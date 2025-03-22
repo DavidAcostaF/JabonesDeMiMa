@@ -11,9 +11,19 @@ from django.http import JsonResponse
 
 # Create your views here.
 
+
+class IndexView(ListView):
+    template_name = 'in dex.html'
+    model = Sale
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sales'] = Sale.objects.all()
+        return context
+    
 @method_decorator(csrf_exempt, name='dispatch')
 class CreateView(CreateView):
-    template_name = ''
+    template_name = 'base.html'
     form_class = SaleForm
     success_url = reverse_lazy('sales:index')
     model = Sale
