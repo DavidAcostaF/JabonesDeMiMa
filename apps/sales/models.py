@@ -22,13 +22,13 @@ class Sale(models.Model):
 
     id = models.AutoField(primary_key=True)
     receipt_folio = models.CharField(max_length=100)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField()
     status = models.CharField(max_length=10, choices=STATUS.choices, default=STATUS.PENDING)
     sub_total = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
     platform = models.ForeignKey(SalePlatform, on_delete=models.CASCADE)
     address = models.CharField(max_length=100)
-    tax = models.DecimalField(max_digits=10, decimal_places=2)
+    tax = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
     client = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
 
