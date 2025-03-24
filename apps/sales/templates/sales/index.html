@@ -1,12 +1,37 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales template</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% include "base.html" %}
+{%block content%}
+<div class="col" style="text-align: center;">
+            <div class="row">
+                <div class="col">
+                    <h1 style="background: #529c43;color: #ffffff;text-align: center;font-family: 'Lexend Deca', sans-serif;padding: 30px;border-radius: 15px;margin-top: 15px;margin-right: 35px;margin-left: 25px;font-size: 30px;">Ventas</h1>
+                    <p class="fw-lighter" style="background: #529c43;text-align: center;font-family: Inter, sans-serif;font-size: 25px;color: #ffffff;padding: 15px;border-radius: 15px;margin-left: 25px;margin-right: 35px;margin-top: 20px;"><strong>10/02/2025 - 22/02/2025</strong></p>
+                    <div class="table-responsive" style="padding: 30px;padding-top: 0px;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="fw-normal" style="background: #529c43;font-family: Inter, sans-serif;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;border-bottom-right-radius: 10px;border-top-right-radius: 10px;border-right-width: 6px;border-right-color: #ffffff;">Fecha de la Venta</th>
+                                    <th class="fw-normal" style="background: #529c43;font-family: Inter, sans-serif;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;border-bottom-right-radius: 10px;border-top-right-radius: 10px;border-right-width: 6px;border-right-color: #ffffff;">Nombre del cliente</th>
+                                    <th class="fw-normal" style="background: #529c43;font-family: Inter, sans-serif;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;border-bottom-right-radius: 10px;border-top-right-radius: 10px;border-right-width: 5px;border-right-color: #ffffff;">Importe (MXN)</th>
+                                    <th class="fw-normal" style="background: #529c43;font-family: Inter, sans-serif;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;border-bottom-right-radius: 10px;border-top-right-radius: 10px;border-right-width: 3px;border-right-color: #ffffff;">Detalles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="background: #f1f1f1;border-radius: 15px;font-family: Inter, sans-serif;border-width: 6px;border-color: #ffffff;border-left-width: 0px;padding: 20px;text-align: left;"><span style="color: rgb(77, 77, 77);">10/02/2025</span></td>
+                                    <td style="background: #f1f1f1;border-radius: 15px;font-family: Inter, sans-serif;border-width: 6px;border-color: #ffffff;padding: 20px;text-align: left;"><span style="color: rgb(77, 77, 77);">Mariana López García</span></td>
+                                    <td style="background: #f1f1f1;border-radius: 15px;font-family: Inter, sans-serif;border-width: 6px;border-color: #ffffff;text-align: right;padding: 20px;"><span style="color: rgb(77, 77, 77);">650.00</span></td>
+                                    <td style="background: #f1f1f1;border-radius: 15px;font-family: Inter, sans-serif;text-align: center;border-width: 6px;border-color: #ffffff;border-right-width: 0px;padding: 20px;"><i class="far fa-edit"></i></td>
+                                </tr>
+                                <tr>
+                                    <td style="background: #f1f1f1;border-radius: 15px;font-family: Inter, sans-serif;border-width: 6px;border-color: #ffffff;border-left-width: 0px;padding: 20px;text-align: left;"><span style="color: rgb(77, 77, 77);">13/02/2025</span></td>
+                                    <td style="background: #f1f1f1;border-radius: 15px;font-family: Inter, sans-serif;border-width: 6px;border-color: #ffffff;padding: 20px;text-align: left;"><span style="color: rgb(77, 77, 77);">Juan Carlos Méndez Torres</span></td>
+                                    <td style="background: #f1f1f1;border-radius: 15px;font-family: Inter, sans-serif;border-width: 6px;border-color: #ffffff;text-align: right;padding: 20px;"><span style="color: rgb(77, 77, 77);">580.00</span></td>
+                                    <td style="background: #f1f1f1;border-radius: 15px;font-family: Inter, sans-serif;text-align: center;border-width: 6px;border-color: #ffffff;border-right-width: 0px;padding: 20px;"><i class="far fa-edit"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div><button class="btn btn-primary" type="button" style="background: #529c43;border-radius: 15px;padding: 15px;margin-top: 380px;font-size: 24px;font-family: 'Lexend Deca', sans-serif;width: 300px;text-align: center;border-style: none;">Agregar</button><button class="btn btn-primary" type="button" style="background: #529c43;border-radius: 15px;padding: 15px;margin-top: 380px;font-size: 24px;font-family: 'Lexend Deca', sans-serif;width: 300px;margin-left: 10px;text-align: center;border-style: none;">Eliminar</button><button class="btn btn-primary" type="button" style="background: #529c43;border-radius: 15px;padding: 15px;margin-top: 380px;font-size: 24px;font-family: 'Lexend Deca', sans-serif;width: 300px;margin-left: 10px;text-align: center;border-style: none;">Actualizar</button>
+        </div>
+{%endblock content%}
