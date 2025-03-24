@@ -1,5 +1,6 @@
 from django import forms
 from .models import Sale,SaleDetail
+from django.forms import inlineformset_factory
 
 class SaleForm(forms.ModelForm):
     class Meta:
@@ -7,7 +8,7 @@ class SaleForm(forms.ModelForm):
         fields = ['client', 'tax', 'address', 'platform',  'receipt_folio', 'status']
         widgets = {
             'client': forms.TextInput(attrs={'class': 'form-control'}),
-            'tax': forms.NumberInput(attrs={'class': 'form-control'}),
+            'tax': forms.NumberInput(attrs={'class': 'form-control', 'value': 0.16, 'readonly': True}),
             'address': forms.TextInput(attrs={'class': 'form-control'}),
             'platform': forms.Select(attrs={'class': 'form-control'}),
             'receipt_folio': forms.TextInput(attrs={'class': 'form-control'}),
@@ -25,9 +26,11 @@ class SaleForm(forms.ModelForm):
 class SaleDetailForm(forms.ModelForm):
     class Meta:
         model = SaleDetail
-        fields = ['product', 'unit_price', 'amount',]
+        fields = ['product', 'amount']
         widgets = {
-            'product': forms.Select(attrs={'class': 'form-control'}),
-            'unit_price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'product': forms.HiddenInput(),  # Ensure the product field is treated as a hidden input
             'amount': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+
+
+DetalleVentaFormSet = inlineformset_factory(Sale, SaleDetail, form=SaleDetailForm, extra=1, can_delete=True)

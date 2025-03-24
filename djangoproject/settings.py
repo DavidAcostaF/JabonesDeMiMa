@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Apps
+    'apps.comun',
     'apps.expenses',
     'apps.products',
     'apps.purchases',
@@ -51,6 +52,13 @@ INSTALLED_APPS = [
     'apps.users',
     'apps.utility',
     'apps.dashboard',
+
+    # Third party apps
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "django_filters",
+    "ninja_extra",
+
 ]
 
 MIDDLEWARE = [
@@ -149,6 +157,11 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+
+# Third Party Apps' Dependencies
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

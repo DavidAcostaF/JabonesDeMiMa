@@ -46,7 +46,7 @@ class SaleDetail(models.Model):
     id = models.AutoField(primary_key=True)
     sale = models.ForeignKey(Sale, on_delete=models.CASCADE)
     product = models.ForeignKey('products.Product', on_delete=models.CASCADE)
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2,null=True,blank=True)
     amount = models.IntegerField()
     total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
 
