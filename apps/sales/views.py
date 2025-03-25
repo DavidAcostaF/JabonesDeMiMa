@@ -97,4 +97,7 @@ class DetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['details'] = SaleDetail.objects.filter(sale=self.object)
+        context['subtotal'] = sum([detail.total_price for detail in context['details']])
+        context['iva'] = context['subtotal'] * Decimal(0.16)
+        context['total'] = context['subtotal'] + context['iva']
         return context

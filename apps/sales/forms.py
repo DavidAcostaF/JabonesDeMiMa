@@ -25,7 +25,7 @@ class SaleForm(forms.ModelForm):
             }),
             'platform': forms.Select(attrs={
                 'class': 'form-control', 
-                'style': 'font-family: "Lexend Deca", sans-serif; font-size: 27px; border-radius: 15px; border: 2px solid #529c43;',
+                'style': 'padding: 12px;font-size: 27px;font-family: Lexend Deca, sans-serif;border-radius: 15px;border: 2px solid #529c43;width: 645px;color: #529c43',
             }),
             'receipt_folio': forms.TextInput(attrs={
                 'class': 'form-control', 
@@ -34,12 +34,12 @@ class SaleForm(forms.ModelForm):
             }),
             'status': forms.Select(attrs={
                 'class': 'form-control', 
-                'style': 'font-family: "Lexend Deca", sans-serif; font-size: 27px; border-radius: 15px; border: 2px solid #529c43;',
+                'style': 'padding: 12px;font-size: 27px;font-family: Lexend Deca, sans-serif;border-radius: 15px;border: 2px solid #529c43;width: 645px;color: #529c43',
             }),
             'date': forms.DateInput(attrs={
-                'class': 'form-control date',
+                'class': 'form-control',
                 'type': 'date',
-                'style': 'font-family: "Lexend Deca", sans-serif; font-size: 27px; border-radius: 15px; padding: 10px; border-style: solid; border-color: #529c43;',
+                'style': 'padding: 12px;font-size: 27px;font-family: Lexend Deca, sans-serif;border-radius: 15px;border: 2px solid #529c43;width: 645px;color: #529c43',
             }),
         }
         labels = {
