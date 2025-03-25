@@ -1,130 +1,119 @@
-{% include "base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h1 style="color: #ffffff;background: #529c43;padding: 26px;font-family: 'Lexend Deca', sans-serif;font-size: 30px;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
-        <i class="far fa-star" style="color: rgba(255,255,255,0);background: url(&quot;assets/img/image%202.png&quot;) no-repeat;font-size: 52px;padding-right: 10px;"></i>Sistema de mi Má
-        <button class="btn btn-primary" type="button" style="font-size: 28px;background: #529c43;margin-left: 1150px;border-radius: 0;border-top-color: rgba(13,110,253,0);border-right-color: rgba(13,110,253,0);border-bottom-color: rgba(13,110,253,0);border-left-width: 3px;border-left-color: #ffffff;padding-left: 50px;">
-            Administrador
-            <i class="far fa-star" style="color: rgba(255,255,255,0);background: url(&quot;assets/img/image%201.png&quot;) no-repeat;font-size: 42px;margin-left: 30px;position: absolute;margin-top: 1px;"></i>
-        </button>
+<div class="col">
+    <h1 style="background: #529c43; color: #ffffff; text-align: center; font-family: 'Lexend Deca', sans-serif; padding: 30px; border-radius: 15px; margin-top: 15px; margin-right: 35px; margin-left: 25px; font-size: 30px;">
+        Agregar Ventas
     </h1>
 
-    <div class="row" style="margin-bottom: 15px;">
-        <div class="col-xxl-3 offset-xxl-0" style="width: 440px;height: 1054px;margin-top: 10px;background: #529c43;margin-left: 46px;padding: 45px;border-radius: 25px;">
-            <header style="padding: 40px;background: url(&quot;assets/img/image%206.png&quot;) center / contain no-repeat;" class="ms-0 me-0 mt-0 pb-5 pe-5 ps-5 mb-0"></header>
-            <p style="font-size: 27px;color: #ffffff;font-family: 'Lexend Deca', sans-serif;background: url(&quot;assets/img/image%203.png&quot;) left / auto no-repeat;text-align: right;margin-top: 40px;margin-right: 240px;">Menú</p>
-            <p style="font-size: 27px;color: #ffffff;font-family: 'Lexend Deca', sans-serif;background: url(&quot;assets/img/image%203.png&quot;) left / auto no-repeat;text-align: right;margin-right: 180px;margin-top: 25px;">Secciones</p>
-            <p style="font-size: 27px;color: #ffffff;font-family: 'Lexend Deca', sans-serif;background: url(&quot;assets/img/image%203.png&quot;) left / auto no-repeat;text-align: right;margin-right: 196px;margin-top: 25px;">Usuarios</p>
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Formulario principal de la venta -->
+        <div class="form-group">
+            {{ form.client|as_crispy_field }}
+        </div>
+        <div class="form-group">
+            {{ form.address|as_crispy_field }}
+        </div>
+        <div class="form-group">
+            {{ form.receipt_folio|as_crispy_field }}
+        </div>
+        <div class="form-group">
+            {{ form.status|as_crispy_field }}
+        </div>
+        <div class="form-group">
+            {{ form.platform|as_crispy_field }}
+        </div>
+        <div class="form-group">
+            {{ form.date|as_crispy_field }}
         </div>
 
-        <div class="col">
-            <h1 style="background: #529c43; color: #ffffff; text-align: center; font-family: 'Lexend Deca', sans-serif; padding: 30px; border-radius: 15px; margin-top: 15px; margin-right: 35px; margin-left: 25px; font-size: 30px;">
-                Agregar Ventas
-            </h1>
-            
-            <form method="post">
-                {% csrf_token %}
-                
-                <!-- Formulario principal de la venta -->
-                <div class="form-group">
-                    {{ form.client|as_crispy_field }}
-                </div>
-                <div class="form-group">
-                    {{ form.address|as_crispy_field }}
-                </div>
-                <div class="form-group">
-                    {{ form.receipt_folio|as_crispy_field }}
-                </div>
-                <div class="form-group">
-                    {{ form.status|as_crispy_field }}
-                </div>
-                <div class="form-group">
-                    {{ form.platform|as_crispy_field }}
-                </div>
-                <div class="form-group">
-                    {{ form.date|as_crispy_field }}
-                </div>
+        {{ formset.management_form }}
 
-                <!-- Formset de detalles de la venta -->
-                {{ formset.management_form }}  <!-- Este es el campo necesario para manejar el formset -->
-                
-                <!-- Producto y cantidad -->
-                <div class="table-responsive" style="margin-left: 25px;margin-right: 35px;margin-bottom: -10px;">
-                    <table class="table">
-                        <thead>
-                            <tr style="border-bottom-color: rgba(222,226,230,0);">
-                                <th class="fw-lighter" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">Producto</th>
-                                <th class="fw-lighter" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <select id="product-select" style="padding: 12px;font-size: 27px;font-family: 'Lexend Deca', sans-serif;border-radius: 15px;border: 2px solid #529c43;width: 645px;color: #529c43;">
-                                        <option value="">Seleccione un producto</option>
-                                        {% for product in products %}
-                                            <option value="{{ product.id }}" data-price="{{ product.price }}" data-stock="{{ product.stock }}">
-                                                {{ product.name }} - ${{ product.price }} (Stock: {{ product.stock }})
-                                            </option>
-                                        {% endfor %}
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="number" id="quantity-input" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;border-radius: 15px;padding: 10px;border-style: solid;border-color: #529c43;width: 520px;color: #529c43;" placeholder="2" value="1" min="1">
-                                    <button type="button" id="add-product" style="font-size: 16px;background: #529c43;color: #ffffff;border-radius: 15px;padding: 10px 20px;margin-left: 10px;">Agregar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Selected Products Table -->
-                <div class="table-responsive" style="padding: 30px;margin-top: 25px;padding-bottom: 0px;">
-                    <table class="table" id="products-table">
-                        <thead>
-                            <tr>
-                                <th class="fw-normal" style="background: #529c43;font-family: Inter, sans-serif;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;border-bottom-right-radius: 10px;border-top-right-radius: 10px;border-right-width: 6px;border-right-color: #ffffff;width: 191.5px;">Cantidad</th>
-                                <th class="fw-normal" style="background: #529c43;font-family: Inter, sans-serif;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;border-bottom-right-radius: 10px;border-top-right-radius: 10px;border-right-width: 6px;border-right-color: #ffffff;width: 391.7px;">Nombre del Producto</th>
-                                <th class="fw-normal" style="background: #529c43;font-family: Inter, sans-serif;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;border-bottom-right-radius: 10px;border-top-right-radius: 10px;border-right-width: 5px;border-right-color: #ffffff;width: 251.1px;">Precio Unitario</th>
-                                <th class="fw-normal" style="background: #529c43;font-family: Inter, sans-serif;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;border-bottom-right-radius: 10px;border-top-right-radius: 10px;border-right-width: 3px;border-right-color: #ffffff;width: 209.2px;">Monto</th>
-                                <th class="fw-normal" style="background: #529c43;font-family: Inter, sans-serif;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;border-bottom-right-radius: 10px;border-top-right-radius: 10px;border-right-width: 3px;border-right-color: #ffffff;border-left: 1px solid rgb(255,255,255);">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Rows will be added dynamically by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- IVA, Subtotal, and Total -->
-                <div class="table-responsive" style="margin-left: 25px;margin-right: 35px;margin-bottom: -10px;">
-                    <table class="table">
-                        <thead style="border-bottom-color: rgba(222,226,230,0);">
-                            <tr>
-                                <th class="fw-lighter" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;padding-left: 8px;padding-right: 0px;margin-right: 0px;margin-left: 0px;width: 410px;">IVA</th>
-                                <th class="fw-lighter" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;padding-left: 8px;padding-right: 0px;margin-right: 0px;margin-left: 0px;width: 440px;">Subtotal</th>
-                                <th class="fw-lighter" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="text" id="iva" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;border-radius: 15px;padding: 10px;border-style: solid;border-color: #529c43;width: 383px;color: #529c43;" placeholder="16%" readonly></td>
-                                <td><input type="text" id="subtotal" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;border-radius: 15px;padding: 10px;border-style: solid;border-color: #529c43;width: 383px;color: #529c43;" placeholder="0.00" readonly></td>
-                                <td><input type="text" id="total" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;border-radius: 15px;padding: 10px;border-style: solid;border-color: #529c43;width: 525px;color: #529c43;" placeholder="0.00" readonly></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Buttons -->
-                <a href="{%url 'sales:index'%}" class="btn btn-primary" type="button" style="background: #529c43;border-radius: 15px;padding: 15px;font-size: 24px;font-family: 'Lexend Deca', sans-serif;width: 300px;text-align: center;margin-top: 28px;margin-left: 25px;border-style: none;">Volver</a>
-                <button class="btn btn-primary float-end" type="submit" style="background: #529c43;border-radius: 15px;padding: 15px;font-size: 24px;font-family: 'Lexend Deca', sans-serif;width: 300px;text-align: center;margin-top: 28px;margin-left: 25px;margin-right: 43px;border-style: none;">Agregar</button>
-            </form>
+        <!-- Producto y cantidad -->
+        <div class="table-responsive" style="margin-left: 25px;margin-right: 35px;margin-bottom: -10px;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="fw-lighter" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">Producto</th>
+                        <th class="fw-lighter" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <select id="product-select" style="padding: 12px;font-size: 27px;font-family: 'Lexend Deca', sans-serif;border-radius: 15px;border: 2px solid #529c43;width: 645px;color: #529c43;">
+                                <option value="">Seleccione un producto</option>
+                                {% for product in products %}
+                                    <option value="{{ product.id }}" data-price="{{ product.price }}" data-stock="{{ product.stock }}">
+                                        {{ product.name }} - ${{ product.price }} (Stock: {{ product.stock }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" id="quantity-input" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;border-radius: 15px;padding: 10px;border-style: solid;border-color: #529c43;width: 520px;color: #529c43;" placeholder="2" value="1" min="1">
+                            <button type="button" id="add-product" style="font-size: 16px;background: #529c43;color: #ffffff;border-radius: 15px;padding: 10px 20px;margin-left: 10px;">Agregar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
 
-    <!-- JavaScript for Dynamic Product Addition and Deletion -->
+        <!-- Tabla de productos seleccionados -->
+        <div class="table-responsive" style="padding: 30px;margin-top: 25px;padding-bottom: 0px;">
+            <table class="table" id="products-table">
+                <thead>
+                    <tr>
+                        <th style="background: #529c43;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;">Cantidad</th>
+                        <th style="background: #529c43;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;">Nombre del Producto</th>
+                        <th style="background: #529c43;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;">Precio Unitario</th>
+                        <th style="background: #529c43;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;">Monto</th>
+                        <th style="background: #529c43;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Filas dinámicas vía JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totales -->
+        <div class="table-responsive" style="margin-left: 25px;margin-right: 35px;margin-bottom: -10px;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">IVA</th>
+                        <th style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">Subtotal</th>
+                        <th style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" id="iva" style="font-size: 27px;border-radius: 15px;padding: 10px;border: 2px solid #529c43;width: 383px;color: #529c43;" readonly></td>
+                        <td><input type="text" id="subtotal" style="font-size: 27px;border-radius: 15px;padding: 10px;border: 2px solid #529c43;width: 383px;color: #529c43;" readonly></td>
+                        <td><input type="text" id="total" style="font-size: 27px;border-radius: 15px;padding: 10px;border: 2px solid #529c43;width: 525px;color: #529c43;" readonly></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Botones -->
+        <a href="{% url 'sales:index' %}" class="btn btn-primary" style="background: #529c43;border-radius: 15px;padding: 15px;font-size: 24px;width: 300px;margin-left: 25px;text-align: center;border-style: none;">Volver</a>
+        <button type="submit" class="btn btn-primary float-end" style="background: #529c43;border-radius: 15px;padding: 15px;font-size: 24px;width: 300px;margin-right: 43px;margin-left: 25px;text-align: center;border-style: none;">Agregar</button>
+    </form>
+</div>
+{% endblock %}
+
+
+    
+
+
+{% block scripts %}
+
+<!-- JavaScript for Dynamic Product Addition and Deletion -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             let tableBody = document.querySelector("#products-table tbody");
@@ -220,4 +209,4 @@
             });
         });
     </script>
-{% endblock %}
+{%endblock%}
