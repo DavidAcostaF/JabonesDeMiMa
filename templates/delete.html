@@ -1,0 +1,39 @@
+<form id="deleteForm" method="post">
+    {% csrf_token %}
+    <div class="modal fade" role="dialog" tabindex="-1" id="delete-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title fs-5 text-title fw-bold">Deshabilitar {{ subtitle }}</h4>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="fs-6 text-dark">Si deshabilitas este elemento, podría estar relacionado con otro elemento, lo que podría afectar su funcionamiento.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light btn_rounded" type="button" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-danger btn-primary" type="button" onclick="formSubmit()">Deshabilitar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Delete Script -->
+<script>
+    function destroy(url) {
+        let queryParams = new URLSearchParams(window.location.search);
+        url = url + '?' + queryParams.toString();
+        console.log(url);
+        console.log($("#deleteForm"))
+        $("#deleteForm").attr('action', url);
+    }
+
+    function formSubmit() {
+        $("#deleteForm").submit();
+    }
+</script>

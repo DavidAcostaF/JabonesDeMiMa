@@ -18,7 +18,7 @@
                             <th class="fw-normal" style="background: #529c43; font-family: Inter, sans-serif; color: #ffffff; border-radius: 10px; font-size: 20px; text-align: center; padding: 20px;">Fecha de la Venta</th>
                             <th class="fw-normal" style="background: #529c43; font-family: Inter, sans-serif; color: #ffffff; border-radius: 10px; font-size: 20px; text-align: center; padding: 20px;">Nombre del cliente</th>
                             <th class="fw-normal" style="background: #529c43; font-family: Inter, sans-serif; color: #ffffff; border-radius: 10px; font-size: 20px; text-align: center; padding: 20px;">Importe (MXN)</th>
-                            <th class="fw-normal" style="background: #529c43; font-family: Inter, sans-serif; color: #ffffff; border-radius: 10px; font-size: 20px; text-align: center; padding: 20px;">Detalles</th>
+                            <th class="fw-normal" style="background: #529c43; font-family: Inter, sans-serif; color: #ffffff; border-radius: 10px; font-size: 20px; text-align: center; padding: 20px;">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,8 +33,18 @@
                             <td style="background: #f1f1f1; border-radius: 15px; font-family: Inter, sans-serif; padding: 20px; text-align: right;">
                                 <span style="color: rgb(77, 77, 77);">{{ sale.total }}</span>
                             </td>
-                            <td style="background: #f1f1f1; border-radius: 15px; font-family: Inter, sans-serif; padding: 20px; text-align: center;">
-                                <a href="{% url 'sales:detail' pk=sale.id %}"><i class="far fa-edit"></i></a>
+                            <td style="background: #f1f1f1; border-radius: 15px; padding: 20px; text-align: center;">
+                                <div class="d-flex justify-content-center gap-3">
+                                    <a href="{% url 'sales:detail' pk=sale.id %}" class="btn btn-sm" title="Ver detalles">
+                                        <i class="far fa-eye"></i>
+                                    </a>
+                                    <a  href="{% url 'sales:update' pk=sale.id %}" class="btn btn-sm" title="Editar venta">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                    <a  class="btn btn-sm" data-bs-toggle="modal"  data-bs-target="#delete-modal" onclick="destroy('{% url 'sales:delete' sale.pk %}')" title="Eliminar venta">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
@@ -44,11 +54,12 @@
         </div>
     </div>
 
-    <!-- Botones inferiores -->
-    <div class="d-flex justify-content-center gap-3" style="margin-top: 50px; margin-bottom: 30px;">
+    <!-- Botón inferior único -->
+    <div class="d-flex justify-content-center" style="margin-top: 50px; margin-bottom: 30px;">
         <a href="{% url 'sales:create' %}" class="btn btn-primary" style="background: #529c43; border-radius: 15px; padding: 15px; font-size: 24px; font-family: 'Lexend Deca', sans-serif; width: 300px; border-style: none;">Agregar</a>
-        <button class="btn btn-primary" type="button" style="background: #529c43; border-radius: 15px; padding: 15px; font-size: 24px; font-family: 'Lexend Deca', sans-serif; width: 300px; border-style: none;">Eliminar</button>
-        <button class="btn btn-primary" type="button" style="background: #529c43; border-radius: 15px; padding: 15px; font-size: 24px; font-family: 'Lexend Deca', sans-serif; width: 300px; border-style: none;">Actualizar</button>
     </div>
 </div>
+
+    {% include 'delete.html'%}
+
 {% endblock %}
