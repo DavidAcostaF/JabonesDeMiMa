@@ -6,7 +6,7 @@ from apps.comun.filter_fields import CommaSeparatedFilter
 # The `AbstractFilter` class in Python is a Django filter set that customizes filter fields and
 
 class AbstractFilter(django_filters.FilterSet):
-    id = CommaSeparatedFilter(field_name="id")
+    # id = CommaSeparatedFilter(field_name="id")
 
     # The class `Meta` in Python contains abstract attributes and a dictionary for fields.
     class Meta:
@@ -51,8 +51,9 @@ class AbstractFilter(django_filters.FilterSet):
                 )
 
         if not "id" in fields_dict:
-            self.filters["id"].field.widget = HiddenInput()
+            pass
+            # self.filters["id"].field.widget = HiddenInput()
 
         elif fields_dict["id"].get("hidden", True):
             print("Hidden id field")
-            self.filters["id"].field.widget = HiddenInput()
+            # self.filters["id"].field.widget = HiddenInput()

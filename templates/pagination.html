@@ -1,0 +1,43 @@
+{% load paginator %}
+
+<div class="pagination-container container mt-3">
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link"
+                href="?{% param_replace page=1 %}"
+                aria-label="Previous">
+                <span aria-hidden="true">«</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                href="?{% param_replace page=page_obj.previous_page_number %}"
+                aria-label="Previous">
+                <span aria-hidden="true">‹</span>
+                </a>
+            </li>
+            {% endif %}
+            <li class="page-item">
+            <a class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a>
+            </li>
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                href="?{% param_replace page=page_obj.next_page_number %}"
+                aria-label="Previous">
+                <span aria-hidden="true">›</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                href="?{% param_replace page=paginator.num_pages %}"
+                aria-label="Previous">
+                <span aria-hidden="true">»</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
