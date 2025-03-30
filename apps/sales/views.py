@@ -20,7 +20,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 class SaleIndexView(FilterView):
     template_name = 'sales/index.html'
     model = Sale
-    paginate_by = 3
+    paginate_by = 5
     filterset_class = SaleFilter
     context_object_name = 'sales'   
 
