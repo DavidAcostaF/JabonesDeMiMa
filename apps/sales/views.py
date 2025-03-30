@@ -16,7 +16,7 @@ from django.db.transaction import atomic
 from decimal import Decimal
 from django.contrib.messages.views import SuccessMessageMixin
 
-# Create your views here.
+
 class SaleIndexView(FilterView):
     template_name = 'sales/index.html'
     model = Sale
@@ -24,12 +24,6 @@ class SaleIndexView(FilterView):
     filterset_class = SaleFilter
     context_object_name = 'sales'   
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['sales'] = Sale.objects.all()
-    #     return context
-
-# @atomic
 class SaleCreateView(SuccessMessageMixin,CreateView):
     model = Sale
     form_class = SaleForm
@@ -40,7 +34,7 @@ class SaleCreateView(SuccessMessageMixin,CreateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['formset'] = kwargs.get('formset', DetalleVentaFormSet())
-        data['products'] = Product.objects.all()
+        data['products'] = Product.objects.all().order_by("name")
         return data
 
     def post(self, request, *args, **kwargs):
@@ -74,7 +68,7 @@ class SaleUpdateView(SuccessMessageMixin,UpdateView):
         else:
             data['formset'] = DetalleVentaFormSet(instance=self.object)
 
-        data['products'] = Product.objects.all()
+        data['products'] = Product.objects.all().order_by("name")
         return data
     
     def post(self, request, *args, **kwargs):
@@ -82,13 +76,11 @@ class SaleUpdateView(SuccessMessageMixin,UpdateView):
         form = self.form_class(request.POST, instance=self.object)
         formset = DetalleVentaFormSet(request.POST, instance=self.object)
         form.formset = formset
-
         if form.is_valid() and formset.is_valid():
             self.object = form.save()
             messages.success(request, self.success_message)
             return redirect(self.success_url)
 
-        messages.error(request, "Error al actualizar la venta. Revisa los campos.")
         return render(request, self.template_name, {
             'form': form,
             'formset': formset,

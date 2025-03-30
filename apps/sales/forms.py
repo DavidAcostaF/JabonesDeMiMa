@@ -13,22 +13,35 @@ class SaleForm(forms.ModelForm):
 
         if self.formset is not None and self.formset.is_valid():
             sub_total = 0
-            details = self.formset.save(commit=False)
 
-            for detail in details:
-                detail.unit_price = detail.product.price
-                detail.total_price = detail.unit_price * detail.amount
-                detail.sale = instance
-                sub_total += detail.total_price
+            # ✅ Itera sobre cleaned_data y descarta los eliminados
+            for form in self.formset:
+                if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+                    product = form.cleaned_data['product']
+                    amount = form.cleaned_data['amount']
+                    unit_price = product.price
+                    total_price = unit_price * amount
+                    sub_total += total_price
 
             instance.sub_total = sub_total
-            instance.total = sub_total + (sub_total * Decimal(0.16))
+            instance.total = sub_total + (sub_total * Decimal("0.16"))
 
             if commit:
                 instance.save()
+                # Guardar los detalles
+                details = self.formset.save(commit=False)
                 for detail in details:
+                    detail.sale = instance
+                    detail.unit_price = detail.product.price
+                    detail.total_price = detail.unit_price * detail.amount
                     detail.save()
+
+                # Eliminar los eliminados
+                for obj in self.formset.deleted_objects:
+                    obj.delete()
+
                 self.formset.save_m2m()
+
         elif self.formset is None:
             raise ValueError("SaleForm requires a formset to be passed.")
 
@@ -86,7 +99,7 @@ class SaleDetailForm(forms.ModelForm):
         widgets = {
             'product': forms.HiddenInput(),
             'amount': forms.NumberInput(attrs={
-                'class': 'form-control'
+                'class': 'form-control qty-input'
             }),
         }
 

@@ -51,7 +51,6 @@ class AbstractFilter(django_filters.FilterSet):
                 )
 
         if not "id" in fields_dict:
-            print("No id field")
             self.filters["id"].field.widget = HiddenInput()
 
         elif fields_dict["id"].get("hidden", True):

@@ -58,3 +58,6 @@ class SaleDetail(models.Model):
 
     def __str__(self):
         return f"SaleDetail {self.id}"
+    
+    def get_monto_total(self):
+        return self.unit_price * self.amount
