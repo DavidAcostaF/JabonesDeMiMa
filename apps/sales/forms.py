@@ -2,7 +2,8 @@ from django import forms
 from .models import Sale, SaleDetail
 from django.forms import inlineformset_factory
 from decimal import Decimal
-
+import re
+from datetime import datetime
 class SaleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.formset = kwargs.pop('formset', None)
@@ -14,7 +15,6 @@ class SaleForm(forms.ModelForm):
         if self.formset is not None and self.formset.is_valid():
             sub_total = 0
 
-            # ✅ Itera sobre cleaned_data y descarta los eliminados
             for form in self.formset:
                 if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
                     product = form.cleaned_data['product']
@@ -47,8 +47,20 @@ class SaleForm(forms.ModelForm):
 
         return instance
 
+    def clean_client(self):
+        client = self.cleaned_data.get('client')
+        if not re.match(r"^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$", client):
+            raise forms.ValidationError("No se permiten caracteres especiales.")
+        return client
 
+    def clean_date(self):
+        date = self.cleaned_data.get('date')
+        if date.date() > datetime.now().date():
+            raise forms.ValidationError("La fecha no puede mayor a la actual.")
+        return date
     class Meta:
+        
+        
         model = Sale
         fields = ['client', 'address', 'platform', 'receipt_folio', 'status', 'date']
         widgets = {
@@ -104,4 +116,4 @@ class SaleDetailForm(forms.ModelForm):
         }
 
 # Inline formset factory
-DetalleVentaFormSet = inlineformset_factory(Sale, SaleDetail, form=SaleDetailForm, extra=0, can_delete=True)
+DetalleVentaFormSet = inlineformset_factory(Sale, SaleDetail, form=SaleDetailForm, extra=0, can_delete=True,min_num=1,validate_min=True)

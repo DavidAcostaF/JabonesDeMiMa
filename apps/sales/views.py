@@ -41,13 +41,14 @@ class SaleCreateView(SuccessMessageMixin,CreateView):
         form = self.form_class(request.POST)
         formset = DetalleVentaFormSet(request.POST)
         form.formset = formset
-
+        error_message = None
         if form.is_valid() and formset.is_valid():
             self.object = form.save() 
             messages.success(request, self.success_message)
             return redirect(self.success_url)
-
-        messages.error(request, "Error al guardar la venta. Revisa los campos.")
+        
+        if not formset.is_valid():
+            messages.error(request, "Es necesario agregar por lo menos un producto")
         return render(request, self.template_name, {
             'form': form,
             'formset': formset,
@@ -104,3 +105,10 @@ class SaleDeleteView(SuccessMessageMixin,DeleteView):
     model = Sale
     success_url = reverse_lazy('sales:index')
     success_message = "Elemento eliminado correctamente"
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        messages.success(request, self.success_message)
+        self.object.status = Sale.STATUS.CANCELLED
+        self.object.save()
+        return redirect(self.success_url)

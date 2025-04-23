@@ -21,7 +21,7 @@ class Sale(models.Model):
         CANCELLED = 'CANCELLED', 'Cancelled'
 
     id = models.AutoField(primary_key=True)
-    receipt_folio = models.CharField(max_length=100)
+    receipt_folio = models.CharField(max_length=100,unique=True,error_messages={'unique': 'Ya existe un registro con este folio.'})
     date = models.DateTimeField()
     status = models.CharField(max_length=10, choices=STATUS.choices, default=STATUS.PENDING)
     sub_total = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)

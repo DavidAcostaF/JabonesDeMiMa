@@ -163,7 +163,7 @@ input[name$='-DELETE'] {
         function bindQtyInputEvents() {
             document.querySelectorAll("input.qty-input").forEach(qtyInput => {
                 qtyInput.addEventListener("input", () => {
-                    if (qtyInput.value == 0) {
+                    if (qtyInput.value == 0 || qtyInput.value < 0) {
                         qtyInput.value = 1;
                     }
                     calculateTotals();
@@ -185,7 +185,7 @@ input[name$='-DELETE'] {
                 alert("La cantidad excede el stock disponible.");
                 return;
             }
-            if (quantity <= 0) {
+            if (quantity <= 0 || isNaN(quantity)) {
                 return;
             }
             let formCount = document.querySelectorAll('#products-table tbody tr').length;
