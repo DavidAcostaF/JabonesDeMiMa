@@ -127,10 +127,21 @@ input[name$='-DELETE'] {
         bindQtyInputEvents();
 
         function updateFormsetManagementForm() {
-            const formCount = document.querySelectorAll('#products-table tbody tr').length;
-            document.querySelector('#id_saledetail_set-TOTAL_FORMS').value = formCount;
+            const rows = document.querySelectorAll('#products-table tbody tr');
+            let validForms = 0;
+
+            rows.forEach(row => {
+                const deleteInput = row.querySelector('input[name$="-DELETE"]');
+                if (deleteInput && deleteInput.checked) {
+                    return; // Ignorar los forms eliminados
+                }
+                validForms++;
+            });
+
+            document.querySelector('#id_saledetail_set-TOTAL_FORMS').value = validForms;
             calculateTotals();
         }
+
 
         function calculateTotals() {
             let subtotal = 0;
@@ -139,13 +150,18 @@ input[name$='-DELETE'] {
             let rows = document.querySelectorAll('#products-table tbody tr');
 
             rows.forEach(row => {
-                if (row.style.display === "none") return;
+                const deleteInput = row.querySelector("input[name$='-DELETE']");
+                if (deleteInput && deleteInput.checked) {
+                    return; // 🚫 NO contamos los eliminados
+                }
+
                 let qtyInput = row.querySelector('input.qty-input');
                 let quantity = parseInt(qtyInput?.value || 0);
                 let price = parseFloat(row.querySelector(".price")?.textContent || 0);
 
                 let amount = quantity * price;
                 subtotal += amount;
+
                 const montoCell = row.querySelector(".monto");
                 if (montoCell) {
                     montoCell.textContent = amount.toFixed(2);
@@ -159,6 +175,8 @@ input[name$='-DELETE'] {
             document.querySelector("#iva").value = iva.toFixed(2);
             document.querySelector("#total").value = total.toFixed(2);
         }
+
+
 
         function bindQtyInputEvents() {
             document.querySelectorAll("input.qty-input").forEach(qtyInput => {
@@ -188,6 +206,7 @@ input[name$='-DELETE'] {
             if (quantity <= 0 || isNaN(quantity)) {
                 return;
             }
+
             let formCount = document.querySelectorAll('#products-table tbody tr').length;
             let existingRow = document.querySelector(`#product-id-${productId}`);
 
@@ -195,60 +214,70 @@ input[name$='-DELETE'] {
                 let existingQtyInput = existingRow.querySelector("input.qty-input");
                 let existingQty = parseInt(existingQtyInput.value);
                 existingQtyInput.value = existingQty + quantity;
-                calculateTotals();
-            }else{
+            } else {
                 let newForm = `
-                <tr id="product-id-${productId}">
-                    <td style="background: #f1f1f1; border-radius: 15px; text-align: center; padding: 20px;">
-                        <input type="number"  name="saledetail_set-${formCount}-amount" value="${quantity}" min="1"
-                            class="form-control qty-input" />
-                    </td>
-                    <td style="background: #f1f1f1; border-radius: 15px; text-align: center; padding: 20px;">
-                        ${productName}
-                    </td>
-                    <td class="price" style="background: #f1f1f1; border-radius: 15px; text-align: right; padding: 20px;">
-                        ${price.toFixed(2)}
-                    </td>
-                    <td class="monto" style="background: #f1f1f1; border-radius: 15px; text-align: right; padding: 20px;">
-                        ${(quantity * price).toFixed(2)}
-                    </td>
-                    <td style="background: #f1f1f1; border-radius: 15px; font-family: Inter, sans-serif; text-align: center; border-width: 6px; border-color: #ffffff; border-right-width: 0px; padding: 20px;">
-                            <i class="far fa-star remove-product" style="color: rgba(255,255,255,0);background: url(&quot;{% static 'assets/img/Botón%20Eliminar.png'%}&quot;) no-repeat;font-size: 24px;"></i>
+                    <tr id="product-id-${productId}">
+                        <td>
+                            <input type="number" name="saledetail_set-${formCount}-amount" value="${quantity}" min="1"
+                                class="form-control qty-input" />
                         </td>
-                    <input type="hidden" name="saledetail_set-${formCount}-product" value="${productId}" />
-                </tr>`;
-            tableBody.insertAdjacentHTML('beforeend', newForm);
-            const row = tableBody.lastElementChild;
-            const qtyInput = row.querySelector("input.qty-input");
+                        <td>${productName}</td>
+                        <td class="price">${price.toFixed(2)}</td>
+                        <td class="monto"></td>
+                        <td>
+                            <i class="far fa-star remove-product" style="color: rgba(255,255,255,0); background: url('{% static 'assets/img/Botón Eliminar.png' %}') no-repeat; font-size: 24px;"></i>
+                        </td>
+                        <!-- inputs ocultos necesarios para que Django entienda el form -->
+                        <input type="hidden" name="saledetail_set-${formCount}-id" value="">
+                        <input type="hidden" name="saledetail_set-${formCount}-product" value="${productId}" />
+                        <input type="checkbox" name="saledetail_set-${formCount}-DELETE" style="display:none;" />
+                    </tr>`;
 
-            qtyInput.addEventListener("input", () => {
-                if (qtyInput.value == 0){
-                    qtyInput.value = 1;
-                }
-                calculateTotals();
-            });
-
-            updateFormsetManagementForm();
+                tableBody.insertAdjacentHTML('beforeend', newForm);
+                bindQtyInputEvents(); // Importante: volver a ligar eventos
             }
-            
+
             productSelect.value = '';
             quantityInput.value = 1;
+
+            updateFormsetManagementForm();
+            calculateTotals(); // <<< 🔥 recalcula inmediatamente después de agregar
         });
+
 
         tableBody.addEventListener("click", function (event) {
             if (event.target.classList.contains("remove-product")) {
                 const row = event.target.closest("tr");
+                const deleteInput = row.querySelector('input[name$="-DELETE"]');
 
-                const deleteInput = row.querySelector("input[name$='-DELETE']");
                 if (deleteInput) {
+                    // Si existe input DELETE, es un form de editar
                     deleteInput.checked = true;
+                    row.style.display = "none";
+                } else {
+                    // Si es un form creado dinámicamente (crear)
+                    row.remove();
                 }
 
-                row.style.display = "none";
-                updateFormsetManagementForm();
+                renumberFormset(); // 🚀 <- renumerar todo después de borrar
                 calculateTotals();
             }
         });
+
+
+        function renumberFormset() {
+            const rows = document.querySelectorAll('#products-table tbody tr');
+            rows.forEach((row, index) => {
+                row.querySelectorAll('input, select, textarea').forEach(input => {
+                    if (input.name) {
+                        input.name = input.name.replace(/saledetail_set-(\d+)-/, `saledetail_set-${index}-`);
+                    }
+                });
+            });
+
+            document.querySelector('#id_saledetail_set-TOTAL_FORMS').value = rows.length;
+        }
+
 
         {% comment %} document.querySelectorAll('.formset-data').forEach((el, index) => {
             const quantity = parseInt(el.dataset.amount);
