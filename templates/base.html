@@ -1,20 +1,17 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en">
-
+<html lang="es" data-bs-theme="light">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Administrador - Sistema de mi Má</title>
 
     <!-- Estilos -->
-    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lexend+Deca&display=swap">
-    <link rel="stylesheet" href="{% static 'assets/fonts/fontawesome-all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+    <link href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed|Inter|Lexend+Deca&display=swap">
+    <link href="{% static 'assets/fonts/fontawesome-all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/styles.css' %}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,59 +21,66 @@
 </head>
 
 <body>
-
-    <!-- Encabezado -->
-    <h1 style="color: #ffffff;background: #529c43;padding: 10px;font-family: 'Lexend Deca', sans-serif;font-size: 30px;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
-        <i class="far fa-star" style="color: rgba(255,255,255,0);background: url('{% static 'assets/img/image 2.png' %}') no-repeat;font-size: 52px;padding-right: 10px;"></i>
-        Sistema de mi Má
-        <button class="btn btn-primary" type="button" style="font-size: 28px;background: #529c43;margin-left: 1150px;border-radius: 0;border-top-color: rgba(13,110,253,0);border-right-color: rgba(13,110,253,0);border-bottom-color: rgba(13,110,253,0);border-left-width: 3px;border-left-color: #ffffff;padding-left: 50px;">
-            Administrador
-            <i class="far fa-star" style="color: rgba(255,255,255,0);background: url('{% static 'assets/img/image 1.png' %}') no-repeat;font-size: 42px;margin-left: 30px;position: absolute;margin-top: 1px;"></i>
-        </button>
-    </h1>
-
-    <div class="row">
-        <!-- ✅ Menú lateral siempre visible -->
-        
-        <div class="col-xxl-3 offset-xxl-0" style="width: 440px;height: 915px;margin-top: 10px;background: #529c43;border-radius: 25px;margin-left: 26px;padding: 45px;">
-            <header style="padding: 40px;background: url('{% static 'assets/img/image 6.png'%}') center / contain no-repeat;" class="ms-0 me-0 mt-0 pb-5 pe-5 ps-5 mb-0"></header>
-            <p style="font-size: 27px;color: #ffffff;font-family: 'Lexend Deca', sans-serif;background: url('{% static 'assets/img/image 3.png'%}') left / auto no-repeat;text-align: right;margin-top: 40px;margin-right: 240px;">Menú</p>
-            <p style="font-size: 27px;color: #ffffff;font-family: 'Lexend Deca', sans-serif;background: url('{% static 'assets/img/image 3.png'%}') left / auto no-repeat;text-align: right;margin-top: 25px;margin-right: 180px;">Secciones</p>
-            <p style="font-size: 27px;color: #ffffff;font-family: 'Lexend Deca', sans-serif;background: url('{% static 'assets/img/image 3.png'%}') left / auto no-repeat;text-align: right;margin-top: 25px;margin-right: 196px;">Usuarios</p>
+    <!-- Barra superior -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #529c43;">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="{% static 'assets/img/image 2.png' %}" alt="Logo" width="52" height="52" class="d-inline-block align-text-top me-2">
+                Sistema de mi Má
+            </a>
+            <div class="d-flex ms-auto align-items-center">
+                <span class="text-white me-2" style="font-family: 'Lexend Deca', sans-serif; font-size: 24px;">Administrador</span>
+                <img src="{% static 'assets/img/image 1.png' %}" alt="Usuario" width="40" height="40" class="rounded-circle">
+            </div>
         </div>
+    </nav>
 
-        <div class="col">
-            {% block content %}
-            {% endblock %}
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Menú lateral -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse" style="background-color: #529c43; min-height: 100vh; padding-top: 2rem; font-family: 'Lexend Deca', sans-serif;">
+                <div class="position-sticky">
+                    <div class="text-center mb-4">
+                        <img src="{% static 'assets/img/image 6.png' %}" alt="Home Icon" class="img-fluid" style="width: 80px;">
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-3">
+                            <a class="nav-link text-white" href="{%url 'dashboard:index'%}" style="font-size: 22px;">
+                                <img src="{% static 'assets/img/image 3.png' %}" class="me-2" alt="" style="width: 24px;">
+                                Menú
+                            </a>
+                        </li>
+                        <li class="nav-item mb-3">
+                            <a class="nav-link text-white" href="#" style="font-size: 22px;">
+                                <img src="{% static 'assets/img/image 3.png' %}" class="me-2" alt="" style="width: 24px;">
+                                Secciones
+                            </a>
+                        </li>
+                        <li class="nav-item mb-3">
+                            <a class="nav-link text-white" href="#" style="font-size: 22px;">
+                                <img src="{% static 'assets/img/image 3.png' %}" class="me-2" alt="" style="width: 24px;">
+                                Usuarios
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 
+            <!-- Contenido principal -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                {% block content %}
+                {% endblock %}
+            </main>
         </div>
     </div>
+
     {% include "sweetalert.html" %}
-</body>
+
     <!-- Scripts -->
-    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-function confirmarEliminacion(saleId) {
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "Esta acción no se puede deshacer.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#529c43',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = ``;
-        }
-    })
-}
-</script>
-{% block scripts %}
-
-{% endblock %}
-
+    {% block scripts %}
+    {% endblock %}
+</body>
 </html>

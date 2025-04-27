@@ -1,122 +1,134 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{%block css%}
+
+{% block css %}
+<link href="{% static '/css/sales.css' %}" rel="stylesheet">
 <style>
+
 input[name$='-DELETE'] {
     display: none;
-} 
-</style>
+}
 
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="col">
-    <h1 style="background: #529c43; color: #ffffff; text-align: center; font-family: 'Lexend Deca', sans-serif; padding: 30px; border-radius: 15px; margin-top: 15px; margin-right: 35px; margin-left: 25px; font-size: 30px;">
+<div class="container-fluid">
+    <h1 class="text-center mt-1 mb-4 p-3" style="background: #529c43; color: #fff; font-family: 'Lexend Deca', sans-serif; border-radius: 15px; font-size: 25px;">
         Agregar Ventas
     </h1>
 
     <form method="post">
         {% csrf_token %}
-        {{ form|crispy }}
-        {{ formset.management_form }}
 
-        <!-- Producto y cantidad -->
-        <div class="table-responsive" style="margin-left: 25px;margin-right: 35px;margin-bottom: -10px;">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th class="fw-lighter" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">Producto</th>
-                        <th class="fw-lighter" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">Cantidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <select id="product-select" style="padding: 12px;font-size: 27px;font-family: 'Lexend Deca', sans-serif;border-radius: 15px;border: 2px solid #529c43;width: 645px;color: #529c43;">
-                                <option value="">Seleccione un producto</option>
-                                {% for product in products %}
-                                    <option value="{{ product.id }}" data-price="{{ product.price }}" data-stock="{{ product.stock }}">
-                                        {{ product.name }} - ${{ product.price }} (Stock: {{ product.stock }})
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                        <td>
-                            <input type="number" id="quantity-input" style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;border-radius: 15px;padding: 10px;border-style: solid;border-color: #529c43;width: 520px;color: #529c43;" placeholder="2" value="1" min="1">
-                            <button type="button" id="add-product" style="font-size: 16px;background: #529c43;color: #ffffff;border-radius: 15px;padding: 10px 20px;margin-left: 10px;">Agregar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row g-4 px-4">
+            <div class="col-md-6">
+                {{ form.client|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ form.address|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ form.platform|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ form.receipt_folio|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ form.status|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ form.date|as_crispy_field }}
+            </div>
         </div>
 
-        <div class="table-responsive" style="padding: 30px;margin-top: 25px;padding-bottom: 0px;">
-            <table class="table" id="products-table">
-                <thead>
+        {{ formset.management_form }}
+
+        <!-- Producto y Cantidad -->
+        <div class="row mt-5 px-4">
+            <div class="col-md-7 mb-3">
+                <select id="product-select" class="form-select" 
+                    style="padding: 12px; font-size: 27px; font-family: 'Lexend Deca', sans-serif; border-radius: 15px; border: 2px solid #529c43; color: #529c43;">
+                    <option value="">Seleccione un producto</option>
+                    {% for product in products %}
+                        <option value="{{ product.id }}" data-price="{{ product.price }}" data-stock="{{ product.stock }}">
+                            {{ product.name }} - ${{ product.price }} (Stock: {{ product.stock }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+            <input type="number" id="quantity-input" class="form-control"
+                style="padding: 12px; font-size: 27px; font-family: 'Lexend Deca', sans-serif; border-radius: 15px; border: 2px solid #529c43; color: #529c43;"
+                value="1" min="1">                
+            </div>
+            <div class="col-md-2 mb-3 d-grid">
+                <button type="button" id="add-product" class="btn" style="background: #529c43; color: #fff; font-size: 18px; font-family: 'Lexend Deca', sans-serif;">
+                    Agregar
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabla de productos -->
+        <div class="table-responsive px-4">
+            <table class="table table-bordered text-center" id="products-table">
+                <thead style="background: #529c43; color: #fff; font-family: 'Lexend Deca', sans-serif;">
                     <tr>
-                        <th style="background: #529c43;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;">Cantidad</th>
-                        <th style="background: #529c43;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;">Nombre del Producto</th>
-                        <th style="background: #529c43;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;">Precio Unitario</th>
-                        <th style="background: #529c43;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;">Monto</th>
-                        <th style="background: #529c43;color: #ffffff;border-radius: 10px;font-size: 20px;text-align: center;padding: 20px;">Acciones</th>
+                        <th>Cantidad</th>
+                        <th>Nombre del Producto</th>
+                        <th>Precio Unitario</th>
+                        <th>Monto</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for form in formset.forms %}
                         {% if form.instance.pk or form.instance.product %}
-                            <tr id="product-id-{{ form.instance.product.id }}">
-                                <td style="background: #f1f1f1; border-radius: 15px; text-align: center; padding: 20px;">
-                                    {{ form.amount }}
-                                </td>
-                                <td style="background: #f1f1f1; border-radius: 15px; text-align: center; padding: 20px;">
-                                    {{ form.instance.product.name }}
-                                </td>
-                                <td class="price" style="background: #f1f1f1; border-radius: 15px; text-align: right; padding: 20px;">
-                                    {{ form.instance.product.price|floatformat:2 }}
-                                </td>
-                                <td class="monto" style="background: #f1f1f1; border-radius: 15px; text-align: right; padding: 20px;">
-                                    {{ form.instance|floatformat:2 }}
-                                </td>
-                                <td style="background: #f1f1f1; border-radius: 15px; font-family: Inter, sans-serif; text-align: center; padding: 20px;">
-                                    <i class="far fa-star remove-product" style="color: rgba(255,255,255,0); background: url('{% static 'assets/img/Botón Eliminar.png' %}') no-repeat; font-size: 24px;"></i>
-                                    {{ form.DELETE }}
-                                </td>
-                                {{ form.product }}
-                                {{ form.id }}
-                            </tr>
+                        <tr id="product-id-{{ form.instance.product.id }}">
+                            <td>{{ form.amount }}</td>
+                            <td>{{ form.instance.product.name }}</td>
+                            <td class="price">{{ form.instance.product.price|floatformat:2 }}</td>
+                            <td class="monto">{{ form.instance|floatformat:2 }}</td>
+                            <td>
+                                <i class="far fa-star remove-product" style="color: rgba(255,255,255,0);background: url(&quot;{% static 'assets/img/Botón%20Eliminar.png'%}&quot;) no-repeat;font-size: 24px;"></i>
+                                {{ form.DELETE }}
+                            </td>
+                            {{ form.product }}
+                            {{ form.id }}
+                        </tr>
                         {% endif %}
                     {% endfor %}
                 </tbody>
-
             </table>
         </div>
 
-        <div class="table-responsive" style="margin-left: 25px;margin-right: 35px;margin-bottom: -10px;">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">Subtotal</th>
-                        <th style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">IVA</th>
-                        <th style="font-family: 'Lexend Deca', sans-serif;font-size: 27px;color: #529c43;">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="text" id="subtotal" style="font-size: 27px;border-radius: 15px;padding: 10px;border: 2px solid #529c43;width: 383px;color: #529c43;" readonly></td>
-                        <td><input type="text" id="iva" style="font-size: 27px;border-radius: 15px;padding: 10px;border: 2px solid #529c43;width: 383px;color: #529c43;" readonly></td>
-                        <td><input type="text" id="total" style="font-size: 27px;border-radius: 15px;padding: 10px;border: 2px solid #529c43;width: 525px;color: #529c43;" readonly></td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Totales -->
+        <div class="row mt-4 px-4">
+            <div class="col-md-4">
+                <label>Subtotal</label>
+                <input type="text" id="subtotal" class="form-control" readonly style="font-family: 'Lexend Deca', sans-serif; font-size: 20px; border: 2px solid #529c43;">
+            </div>
+            <div class="col-md-4">
+                <label>IVA</label>
+                <input type="text" id="iva" class="form-control" readonly style="font-family: 'Lexend Deca', sans-serif; font-size: 20px; border: 2px solid #529c43;">
+            </div>
+            <div class="col-md-4">
+                <label>Total</label>
+                <input type="text" id="total" class="form-control" readonly style="font-family: 'Lexend Deca', sans-serif; font-size: 20px; border: 2px solid #529c43;">
+            </div>
         </div>
 
-        <a href="{% url 'sales:index' %}" class="btn btn-primary" style="background: #529c43;border-radius: 15px;padding: 15px;font-size: 24px;width: 300px;margin-left: 25px;text-align: center;border-style: none;">Volver</a>
-        <button type="submit" class="btn btn-primary float-end" style="background: #529c43;border-radius: 15px;padding: 15px;font-size: 24px;width: 300px;margin-right: 43px;margin-left: 25px;text-align: center;border-style: none;">Guardar</button>
+        <!-- Botones -->
+        <div class="d-flex justify-content-between mt-5 px-4">
+            <a href="{% url 'sales:index' %}" class="btn btn-primary" style="background: #529c43; font-size: 24px; font-family: 'Lexend Deca', sans-serif; border-radius: 15px; width: 250px;">Volver</a>
+            <button type="submit" class="btn btn-primary" style="background: #529c43; font-size: 24px; font-family: 'Lexend Deca', sans-serif; border-radius: 15px; width: 250px;">Guardar</button>
+        </div>
     </form>
 </div>
 {% endblock %}
 
+     
 {% block scripts %}
 <script>
     document.addEventListener("DOMContentLoaded", function () {

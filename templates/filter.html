@@ -3,7 +3,7 @@
         Filtros
     </h2>
 
-    <div class="card-body py-3" style="background: #529c43;">
+    <div class="card-body py-1" style="background: #529c43;">
         <form class="search-form w-100" method="get" id="filters">
             <div class="row justify-content-center">
                 {% if filter.body_template %}
@@ -19,7 +19,7 @@
                         {% elif filter.form.fields|length|divisibleby:"2" %}
                             <div class="col-12 col-sm-6 my-3">
                         {% else %}
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 my-3">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 my-1">
                         {% endif %}
                             <label class="form-label input-color fw-bold" style="color:white" for="{{ form.zone_name.id_for_label }}">{{ filter_name.label_tag }}</label>
                             <div class="input-group">
@@ -30,7 +30,7 @@
                 {% endif %}
             </div>
 
-            <div class="text-end mt-3" style="margin-right: 30px;">
+            <div class="text-end mt-3" style="margin-right: 10px;">
                 <a href="{{ request.path }}" class="btn btn-light btn-sm me-2">
                     Borrar filtros
                 </a>

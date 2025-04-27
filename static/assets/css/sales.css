@@ -1,0 +1,4 @@
+.placeholder-green::placeholder {
+    color: #529c43;
+    opacity: 1; /* Para que no se vea deslavado */
+}

@@ -22,7 +22,8 @@ class SaleForm(forms.ModelForm):
                     unit_price = product.price
                     total_price = unit_price * amount
                     sub_total += total_price
-
+                    product.stock -= amount
+                    product.save()
             instance.sub_total = sub_total
             instance.total = sub_total + (sub_total * Decimal("0.16"))
 
@@ -65,32 +66,32 @@ class SaleForm(forms.ModelForm):
         fields = ['client', 'address', 'platform', 'receipt_folio', 'status', 'date']
         widgets = {
             'client': forms.TextInput(attrs={
-                'class': 'form-control', 
-                'style': 'font-family: "Lexend Deca", sans-serif; font-size: 27px; border-radius: 15px; padding: 10px; border-style: solid; border-color: #529c43; width: 1365px; color: #529c43;',
+                'class': 'form-control placeholder-green', 
+                'style': 'font-family: "Lexend Deca", sans-serif; font-size: 27px; border-radius: 15px; padding: 10px;border: 2px solid #529c43; border-style: solid; border-color: #529c43; color: #529c43;',
                 'placeholder': 'Juan Perez',
             }),
             'address': forms.TextInput(attrs={
-                'class': 'form-control', 
-                'style': 'font-family: "Lexend Deca", sans-serif; font-size: 27px; border-radius: 15px; padding: 10px; border-style: solid; border-color: #529c43; width: 1365px; color: #529c43;',
+                'class': 'form-control placeholder-green', 
+                'style': 'font-family: "Lexend Deca", sans-serif; font-size: 27px; border-radius: 15px; padding: 10px;border: 2px solid #529c43; border-style: solid; border-color: #529c43; color: #529c43;',
                 'placeholder': 'Av. Torres 1234',
             }),
             'platform': forms.Select(attrs={
                 'class': 'form-control', 
-                'style': 'padding: 12px;font-size: 27px;font-family: Lexend Deca, sans-serif;border-radius: 15px;border: 2px solid #529c43;width: 645px;color: #529c43',
+                'style': 'padding: 12px;font-size: 27px;font-family: Lexend Deca, sans-serif;border-radius: 15px;border: 2px solid #529c43;color: #529c43',
             }),
             'receipt_folio': forms.TextInput(attrs={
-                'class': 'form-control', 
-                'style': 'font-family: "Lexend Deca", sans-serif; font-size: 27px; border-radius: 15px; padding: 10px; border-style: solid; border-color: #529c43; width: 520px; color: #529c43;',
+                'class': 'form-control placeholder-green', 
+                'style': 'font-family: "Lexend Deca", sans-serif; font-size: 27px; border-radius: 15px; padding: 10px; border-style: solid;border: 2px solid #529c43; border-color: #529c43; color: #529c43;',
                 'placeholder': 'F000010',
             }),
             'status': forms.Select(attrs={
                 'class': 'form-control', 
-                'style': 'padding: 12px;font-size: 27px;font-family: Lexend Deca, sans-serif;border-radius: 15px;border: 2px solid #529c43;width: 645px;color: #529c43',
+                'style': 'padding: 12px;font-size: 27px;font-family: Lexend Deca, sans-serif;border-radius: 15px;border: 2px solid #529c43;color: #529c43',
             }),
             'date': forms.DateInput(attrs={
                 'class': 'form-control',
                 'type': 'date',
-                'style': 'padding: 12px;font-size: 27px;font-family: Lexend Deca, sans-serif;border-radius: 15px;border: 2px solid #529c43;width: 645px;color: #529c43',
+                'style': 'padding: 12px;font-size: 27px;font-family: Lexend Deca, sans-serif;border-radius: 15px;border: 2px solid #529c43;color: #529c43',
             }),
         }
         labels = {

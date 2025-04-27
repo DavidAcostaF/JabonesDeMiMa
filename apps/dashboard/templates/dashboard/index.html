@@ -1,12 +1,51 @@
 {% extends "base.html" %}
 {% load static %}
 
-{%block content%}
-<button class="btn btn-primary" type="button" style="background: #529c43;border-radius: 15px;padding: 30px;margin-top: 10px;font-size: 27px;font-family: 'Lexend Deca', sans-serif;width: 350px;margin-left: 10px;border-style: none;">Gastos</button>
-    <button class="btn btn-primary" type="button" style="background: #529c43;border-radius: 15px;padding: 30px;margin-top: 10px;font-size: 27px;font-family: 'Lexend Deca', sans-serif;width: 350px;margin-left: 10px;border-style: none;">Inventario</button>
-    <button class="btn btn-primary" type="button" style="background: #529c43;border-radius: 15px;padding: 30px;margin-top: 10px;font-size: 27px;font-family: 'Lexend Deca', sans-serif;width: 350px;margin-left: 10px;border-style: none;">Compras</button>
-    <button class="btn btn-primary" type="button" style="background: #529c43;border-radius: 15px;padding: 30px;margin-top: 10px;font-size: 27px;font-family: 'Lexend Deca', sans-serif;width: 350px;margin-left: 10px;border-style: none;">Insumos</button>
-    <button class="btn btn-primary" type="button" style="background: #529c43;border-radius: 15px;padding: 30px;margin-top: 10px;font-size: 27px;font-family: 'Lexend Deca', sans-serif;width: 350px;margin-left: 10px;border-style: none;">Productos</button>
-    <button class="btn btn-primary" type="button" style="background: #529c43;border-radius: 15px;padding: 30px;margin-top: 10px;font-size: 27px;font-family: 'Lexend Deca', sans-serif;width: 350px;margin-left: 10px;border-style: none;">Proveedores</button>
-<a href="{% url 'sales:index' %}" class="btn btn-primary" type="button" style="background: #529c43;border-radius: 15px;padding: 30px;margin-top: 10px;font-size: 27px;font-family: 'Lexend Deca', sans-serif;width: 350px;margin-left: 10px;border-style: none;">Ventas</a>
-{%endblock%}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row g-3">
+        <!-- Tarjeta -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <a href="#" class="btn w-100 text-white" style="background-color: #529c43; border-radius: 15px; font-size: 24px; font-family: 'Lexend Deca', sans-serif; padding: 30px;">
+                Gastos
+            </a>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <a href="#" class="btn w-100 text-white" style="background-color: #529c43; border-radius: 15px; font-size: 24px; font-family: 'Lexend Deca', sans-serif; padding: 30px;">
+                Inventario
+            </a>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <a href="#" class="btn w-100 text-white" style="background-color: #529c43; border-radius: 15px; font-size: 24px; font-family: 'Lexend Deca', sans-serif; padding: 30px;">
+                Compras
+            </a>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <a href="#" class="btn w-100 text-white" style="background-color: #529c43; border-radius: 15px; font-size: 24px; font-family: 'Lexend Deca', sans-serif; padding: 30px;">
+                Insumos
+            </a>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <a href="#" class="btn w-100 text-white" style="background-color: #529c43; border-radius: 15px; font-size: 24px; font-family: 'Lexend Deca', sans-serif; padding: 30px;">
+                Productos
+            </a>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <a href="#" class="btn w-100 text-white" style="background-color: #529c43; border-radius: 15px; font-size: 24px; font-family: 'Lexend Deca', sans-serif; padding: 30px;">
+                Proveedores
+            </a>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <a href="{% url 'sales:index' %}" class="btn w-100 text-white" style="background-color: #529c43; border-radius: 15px; font-size: 24px; font-family: 'Lexend Deca', sans-serif; padding: 30px;">
+                Ventas
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

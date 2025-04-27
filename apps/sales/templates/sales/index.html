@@ -5,46 +5,46 @@
 <div class="col" style="text-align: center;">
     <div class="row">
         <div class="col">
-            <h1 style="background: #529c43; color: #ffffff; text-align: center; font-family: 'Lexend Deca', sans-serif; padding: 10px; border-radius: 15px; margin-top: 15px; margin-right: 35px; margin-left: 25px; font-size: 30px;">Ventas</h1>
+            <h1 style="background: #529c43; color: #ffffff; text-align: center; font-family: 'Lexend Deca', sans-serif; padding: 10px; border-radius: 15px; margin-right: 35px; margin-left: 25px; font-size: 30px;">Ventas</h1>
             
             <!-- Encabezado con estilo y filtro dentro -->
             <div style="background: #529c43; color: #ffffff; border-radius: 15px; margin: 20px 35px 0 25px;">
-                <div style="padding-top: 1px;">
+                <div style="padding-top;">
                     {% include 'filter.html' %}
                 </div>
             </div>
 
-            <div class="table-responsive" style="padding: 30px; padding-top: 0px;">
-                <table class="table">
+            <div class="table-responsive" style="padding: 0px 30px;">
+                <table class="table align-middle">
                     <thead>
                         <tr>
-                            <th class="fw-normal" style="background: #529c43; font-family: Inter, sans-serif; color: #ffffff; border-radius: 10px; font-size: 20px; text-align: center; padding: 20px;">Fecha de la Venta</th>
-                            <th class="fw-normal" style="background: #529c43; font-family: Inter, sans-serif; color: #ffffff; border-radius: 10px; font-size: 20px; text-align: center; padding: 20px;">Nombre del cliente</th>
-                            <th class="fw-normal" style="background: #529c43; font-family: Inter, sans-serif; color: #ffffff; border-radius: 10px; font-size: 20px; text-align: center; padding: 20px;">Importe (MXN)</th>
-                            <th class="fw-normal" style="background: #529c43; font-family: Inter, sans-serif; color: #ffffff; border-radius: 10px; font-size: 20px; text-align: center; padding: 20px;">Opciones</th>
+                            <th class="text-center" style="background: #529c43; font-family: 'Inter', sans-serif; color: #ffffff; font-size: 15px; padding: 12px;">Fecha de la Venta</th>
+                            <th class="text-center" style="background: #529c43; font-family: 'Inter', sans-serif; color: #ffffff; font-size: 15px; padding: 12px;">Nombre del cliente</th>
+                            <th class="text-center" style="background: #529c43; font-family: 'Inter', sans-serif; color: #ffffff; font-size: 15px; padding: 12px;">Importe (MXN)</th>
+                            <th class="text-center" style="background: #529c43; font-family: 'Inter', sans-serif; color: #ffffff; font-size: 15px; padding: 12px;">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for sale in sales %}
                         <tr>
-                            <td style="background: #f1f1f1; border-radius: 15px; font-family: Inter, sans-serif; padding: 20px; text-align: left;">
-                                <span style="color: rgb(77, 77, 77);">{{ sale.date }}</span>
+                            <td style="background: #f1f1f1; border-radius: 10px; font-family: 'Inter', sans-serif; padding: 10px; text-align: left;">
+                                <span style="color: rgb(77, 77, 77);">{{ sale.date|date:"d/m/Y" }}</span>
                             </td>
-                            <td style="background: #f1f1f1; border-radius: 15px; font-family: Inter, sans-serif; padding: 20px; text-align: left;">
+                            <td style="background: #f1f1f1; font-family: 'Inter', sans-serif; padding: 10px; text-align: left;">
                                 <span style="color: rgb(77, 77, 77);">{{ sale.client }}</span>
                             </td>
-                            <td style="background: #f1f1f1; border-radius: 15px; font-family: Inter, sans-serif; padding: 20px; text-align: right;">
+                            <td style="background: #f1f1f1; border-radius: 10px; font-family: 'Inter', sans-serif; padding: 10px; text-align: right;">
                                 <span style="color: rgb(77, 77, 77);">{{ sale.total }}</span>
                             </td>
-                            <td style="background: #f1f1f1; border-radius: 15px; padding: 20px; text-align: center;">
-                                <div class="d-flex justify-content-center gap-3">
-                                    <a href="{% url 'sales:detail' pk=sale.id %}" class="btn btn-sm" title="Ver detalles">
+                            <td style="background: #f1f1f1; border-radius: 10px; padding: 6px; text-align: center;">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="{% url 'sales:detail' pk=sale.id %}" class="text-success" title="Ver detalles" style="font-size: 18px;">
                                         <i class="far fa-eye"></i>
                                     </a>
-                                    <a  href="{% url 'sales:update' pk=sale.id %}" class="btn btn-sm" title="Editar venta">
+                                    <a href="{% url 'sales:update' pk=sale.id %}" class="text-primary" title="Editar venta" style="font-size: 18px;">
                                         <i class="far fa-edit"></i>
                                     </a>
-                                    <a  class="btn btn-sm" data-bs-toggle="modal"  data-bs-target="#delete-modal" onclick="destroy('{% url 'sales:delete' sale.pk %}')" title="Eliminar venta">
+                                    <a href="#" class="text-danger" title="Eliminar venta" data-bs-toggle="modal" data-bs-target="#delete-modal" onclick="destroy('{% url 'sales:delete' sale.pk %}')" style="font-size: 18px;">
                                         <i class="far fa-trash-alt"></i>
                                     </a>
                                 </div>
@@ -54,13 +54,14 @@
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
     {% include 'pagination.html' %}
 
     <!-- Botón inferior único -->
-    <div class="d-flex justify-content-center" style="margin-top: 50px; margin-bottom: 30px;">
-        <a href="{% url 'sales:create' %}" class="btn btn-primary" style="background: #529c43; border-radius: 15px; padding: 15px; font-size: 24px; font-family: 'Lexend Deca', sans-serif; width: 300px; border-style: none;">Agregar</a>
+    <div class="d-flex justify-content-center" style="margin-top: 40px; margin-bottom: 20px;">
+        <a href="{% url 'sales:create' %}" class="btn btn-primary" style="background: #529c43; border-radius: 15px; padding: 15px; font-size: 15px; font-family: 'Lexend Deca', sans-serif; width: 300px; border-style: none;">Agregar</a>
     </div>
 </div>
 
