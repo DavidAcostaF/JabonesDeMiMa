@@ -1,18 +1,47 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static humanize %}
 
 {% block content %}
 <div class="col text-center">
-    <h1 style="background: #529c43; color: white; padding: 10px; border-radius: 15px; margin: 25px 35px; font-size: 30px;">
+
+    <!-- Título principal -->
+    <h1 style="background: #529c43; color: white; padding: 35px; border-radius: 15px; margin: 25px auto; font-size: 30px; width: 95%;">
         Gastos
     </h1>
 
-    <div style="background: #529c43; color: white; border-radius: 15px; margin: 20px 35px;">
-        <h3 style="padding: 10px;">Mes de {{ mes_actual }}</h3>
+    <!-- Filtro de fechas -->
+    <div style="background: #529c43; color: white; border-radius: 15px; padding: 15px 30px; margin: 20px auto; width: 95%;">
+        <form method="get" class="d-flex justify-content-center align-items-center flex-wrap gap-3 mb-0">
+            <label for="mes" style="font-size: 18px; font-weight: bold;">Fechas:</label>
+
+            <select name="mes" id="mes" class="form-select" style="width: auto; min-width: 120px; font-size: 16px; padding: 5px;">
+                {% for numero, nombre in meses %}
+                    <option value="{{ numero }}" {% if numero == mes_actual_num %}selected{% endif %}>{{ nombre }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="anio" id="anio" class="form-select" style="width: auto; min-width: 100px; font-size: 16px; padding: 5px;">
+                {% for anio in anios %}
+                    <option value="{{ anio }}" {% if anio == anio_actual %}selected{% endif %}>{{ anio }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn"
+                    style="background-color: #ffffff; color: #529c43; font-weight: bold;
+                        font-size: 16px; padding: 5px 20px; border-radius: 10px; border: 2px solid #529c43;">
+                Filtrar
+            </button>
+        </form>
     </div>
 
+    <!-- Mes actual -->
+    <div style="background: #529c43; color: white; border-radius: 15px; padding: 10px; margin: 10px auto 20px; width: 95%;">
+        <h3>{{ mes_actual }}</h3>
+    </div>
+
+    <!-- Tabla de gastos -->
     <div class="table-responsive" style="padding: 0px 30px;">
-        <table class="table align-middle">
+        <table class="table align-middle" style="width: 98%; margin: auto; border-radius: 15px;">
             <thead>
                 <tr>
                     <th class="text-center" style="background: #529c43; color: white;">Descripción Pago</th>
@@ -21,25 +50,30 @@
                 </tr>
             </thead>
             <tbody>
-                {% for gasto in gastos %}
+                {% for categoria in gastos_agrupados %}
                 <tr>
-                    <td style="background: #f1f1f1;">{{ gasto.description }}</td>
-                    <td style="background: #f1f1f1;">{{ gasto.total }}</td>
+                    <td style="background: #f1f1f1;">{{ categoria.type__name }}</td>
+                    <td style="background: #f1f1f1;">${{ categoria.total|floatformat:2|intcomma }}</td>
                     <td style="background: #f1f1f1;" class="text-center">
-                        <a href="{% url 'expenses:detail' gasto.id %}" class="text-success" title="Ver">
-                            🔍
-                        </a>
+                        <a href="{% url 'expenses:detail_group' categoria.type__name %}" class="text-success" title="Ver" style="font-size: 24px;">🔍</a>
                     </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" style="background: #f9f9f9;">No hay gastos registrados.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 
-    <div class="mt-4 mb-5">
-        <a href="{% url 'expenses:create' %}" class="btn btn-success mx-2">Agregar</a>
-        <button class="btn btn-danger mx-2">Eliminar</button>
-        <button class="btn btn-primary mx-2">Actualizar</button>
+    <!-- Botones -->
+    <div class="my-4 d-flex justify-content-center gap-3">
+        <a href="{% url 'expenses:create' %}" class="btn text-white"
+           style="background-color: #529c43; border-radius: 15px; font-size: 20px; padding: 10px 30px;">
+            Agregar
+        </a>
     </div>
+
 </div>
 {% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center mt-5">Detalle del gasto</h2>
+<p><strong>Descripción:</strong> {{ gasto.description }}</p>
+<p><strong>Total:</strong> {{ gasto.total }}</p>
+<p><strong>Fecha:</strong> {{ gasto.date|date:"d/m/Y" }}</p>
+<a href="{% url 'expenses:index' %}" class="btn btn-secondary">Volver</a>
+{% endblock %}
