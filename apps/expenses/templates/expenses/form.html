@@ -34,6 +34,11 @@
             <div class="col-md-4">
                 <label style="color: #529c43; font-weight: bold;">Categoría</label>
                 {{ form.type }}
+                <div class="mb-4 text-start" id="nueva-categoria-contenedor" style="display: none;">
+                    <label style="color: #529c43; font-weight: bold;">¿Nueva categoría?</label>
+                    {{ form.nueva_categoria }}
+                    <small class="form-text text-muted">Si ingresas una nueva, se registrará automáticamente.</small>
+                </div>
             </div>
             <div class="col-md-4">
                 <label style="color: #529c43; font-weight: bold;">Fecha</label>
@@ -72,4 +77,24 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tipoSelect = document.getElementById("id_type");
+        const nuevaCategoria = document.getElementById("nueva-categoria-contenedor");
+
+        function toggleNuevaCategoria() {
+            if (tipoSelect.value === "otra") {
+                nuevaCategoria.style.display = "block";
+            } else {
+                nuevaCategoria.style.display = "none";
+                const input = nuevaCategoria.querySelector("input");
+                if (input) input.value = "";  // Limpia si cambia de opinión
+            }
+        }
+
+        tipoSelect.addEventListener("change", toggleNuevaCategoria);
+        toggleNuevaCategoria(); // Ejecuta por si ya está seleccionada
+    });
+</script>
 {% endblock %}

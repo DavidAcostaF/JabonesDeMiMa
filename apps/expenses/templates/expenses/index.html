@@ -55,7 +55,7 @@
                     <td style="background: #f1f1f1;">{{ categoria.type__name }}</td>
                     <td style="background: #f1f1f1;">${{ categoria.total|floatformat:2|intcomma }}</td>
                     <td style="background: #f1f1f1;" class="text-center">
-                        <a href="{% url 'expenses:detail_group' categoria.type__name %}" class="text-success" title="Ver" style="font-size: 24px;">🔍</a>
+                        <a href="{% url 'expenses:detail_group' categoria.type__name %}?mes={{ mes_actual_num }}&anio={{ anio_actual }}" class="text-success" title="Ver">🔍</a>
                     </td>
                 </tr>
                 {% empty %}

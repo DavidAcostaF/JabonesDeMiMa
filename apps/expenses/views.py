@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import ExpenseForm
-from .models import Expense
+from .models import Expense, ExpenseType
 from datetime import datetime
 from django.db.models import Sum
 
@@ -37,9 +37,20 @@ def create(request):
     if request.method == 'POST':
         form = ExpenseForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, '¡Gasto registrado exitosamente!')
-            return redirect('expenses:index') 
+            nueva_categoria = form.cleaned_data.get('nueva_categoria')
+            tipo_seleccionado = form.cleaned_data.get('type')
+
+            if tipo_seleccionado == 'otra' and nueva_categoria:
+                tipo, _ = ExpenseType.objects.get_or_create(name=nueva_categoria)
+            else:
+                tipo = tipo_seleccionado  
+
+            gasto = form.save(commit=False)
+            gasto.type = tipo
+            gasto.save()
+
+            messages.success(request, '¡Gasto registrado correctamente!')
+            return redirect('expenses:index')
     else:
         form = ExpenseForm()
 
@@ -63,10 +74,20 @@ def detail(request, pk):
     })
 
 def detail_group(request, tipo):
-    gastos = Expense.objects.filter(type__name=tipo).order_by('-date')
+    mes = int(request.GET.get('mes', datetime.today().month))
+    anio = int(request.GET.get('anio', datetime.today().year))
+
+    gastos = Expense.objects.filter(
+        type__name=tipo,
+        date__month=mes,
+        date__year=anio
+    ).order_by('-date')
+
     return render(request, 'expenses/detail_group.html', {
         'gastos': gastos,
-        'tipo': tipo
+        'tipo': tipo,
+        'mes': mes,
+        'anio': anio,
     })
 
 def delete(request, pk):
