@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="col text-center">
+    <h1 style="background: #529c43; color: white; padding: 10px; border-radius: 15px; margin: 25px 35px; font-size: 30px;">
+        Gastos
+    </h1>
+
+    <div style="background: #529c43; color: white; border-radius: 15px; margin: 20px 35px;">
+        <h3 style="padding: 10px;">Mes de {{ mes_actual }}</h3>
+    </div>
+
+    <div class="table-responsive" style="padding: 0px 30px;">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th class="text-center" style="background: #529c43; color: white;">Descripción Pago</th>
+                    <th class="text-center" style="background: #529c43; color: white;">Gasto (MXN)</th>
+                    <th class="text-center" style="background: #529c43; color: white;">Detalles</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gasto in gastos %}
+                <tr>
+                    <td style="background: #f1f1f1;">{{ gasto.description }}</td>
+                    <td style="background: #f1f1f1;">{{ gasto.total }}</td>
+                    <td style="background: #f1f1f1;" class="text-center">
+                        <a href="{% url 'expenses:detail' gasto.id %}" class="text-success" title="Ver">
+                            🔍
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4 mb-5">
+        <a href="{% url 'expenses:create' %}" class="btn btn-success mx-2">Agregar</a>
+        <button class="btn btn-danger mx-2">Eliminar</button>
+        <button class="btn btn-primary mx-2">Actualizar</button>
+    </div>
+</div>
+{% endblock %}

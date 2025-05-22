@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="col text-center">
+    <h1 style="background: #529c43; color: white; padding: 10px; border-radius: 15px; margin: 25px 35px; font-size: 30px;">
+        Agregar Gastos
+    </h1>
+
+    <form method="post" style="padding: 0 20%;">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="mb-3">
+            {{ form.receipt_folio.label_tag }}<br>
+            {{ form.receipt_folio }}
+        </div>
+        <div class="mb-3">
+            {{ form.description.label_tag }}<br>
+            {{ form.description }}
+        </div>
+        <div class="mb-3">
+            {{ form.type.label_tag }}<br>
+            {{ form.type }}
+        </div>
+        <div class="mb-3">
+            {{ form.date.label_tag }}<br>
+            {{ form.date }}
+        </div>
+        <div class="mb-3">
+            {{ form.tax.label_tag }}<br>
+            {{ form.tax }}
+        </div>
+        <div class="mb-3">
+            {{ form.sub_total.label_tag }}<br>
+            {{ form.sub_total }}
+        </div>
+        <div class="mb-3">
+            {{ form.total.label_tag }}<br>
+            {{ form.total }}
+        </div>
+        <div class="mb-3">
+            {{ form.supplier.label_tag }}<br>
+            {{ form.supplier }}
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'expenses:index' %}" class="btn btn-secondary">Volver</a>
+            <button type="submit" class="btn btn-success">Agregar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
