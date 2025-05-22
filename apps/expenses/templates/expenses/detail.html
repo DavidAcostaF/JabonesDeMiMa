@@ -64,16 +64,26 @@
                 Volver
             </a>
             <div>
-                <a href="{% url 'expenses:delete' expense.id %}" class="btn text-white"
-                   style="background-color: #c0392b; border-radius: 15px; font-size: 20px; padding: 10px 40px; margin-right: 15px;">
+                <a href="{% url 'expenses:delete' expense.id %}"
+                    class="btn text-white"
+                    style="background-color: #529c43; border-radius: 15px; font-size: 20px; padding: 10px 80px; margin-right: 15px;"
+                    onclick="return confirm('¿Estás seguro de que deseas eliminar este gasto? Esta acción no se puede deshacer.');">
                     Eliminar
                 </a>
                 <button type="submit" class="btn text-white"
-                   style="background-color: #2980b9; border-radius: 15px; font-size: 20px; padding: 10px 40px;">
+                   style="background-color: #529c43; border-radius: 15px; font-size: 20px; padding: 10px 80px;">
                     Modificar
                 </button>
             </div>
         </div>
+        <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const confirmUpdate = confirm('¿Deseas guardar los cambios en este gasto?');
+            if (!confirmUpdate) {
+                e.preventDefault(); 
+            }
+        });
+        </script>
     </form>
 </div>
 {% endblock %}
