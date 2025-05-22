@@ -1,39 +1,44 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block content %}
 <div class="col text-center">
-    <h1 style="background: #529c43; color: white; padding: 30px; border-radius: 15px; margin: 25px auto; font-size: 30px; width: 85%;">
+    <h1 style="background: #529c43; color: white; padding: 30px; border-radius: 15px; margin: 25px auto; font-size: 30px; width: 95%;">
         Detalle de "{{ tipo }}"
     </h1>
 
     <div class="table-responsive" style="padding: 0px 30px;">
-        <table class="table align-middle" style="width: 85%; margin: auto;">
+        <table class="table align-middle" style="width: 98%; margin: auto;">
             <thead>
                 <tr>
-                    <th class="text-center" style="background: #529c43; color: white; border-radius: 15px 0 0 0;">Descripción</th>
+                    <th class="text-center" style="background: #529c43; color: white; border-radius: 15px 0 0 0;">Proveedor</th>
+                    <th class="text-center" style="background: #529c43; color: white;">Descripción</th>
                     <th class="text-center" style="background: #529c43; color: white;">Folio</th>
                     <th class="text-center" style="background: #529c43; color: white;">Fecha</th>
                     <th class="text-center" style="background: #529c43; color: white;">Subtotal</th>
                     <th class="text-center" style="background: #529c43; color: white;">IVA</th>
                     <th class="text-center" style="background: #529c43; color: white;">Total</th>
-                    <th class="text-center" style="background: #529c43; color: white; border-radius: 0 15px 0 0;">Proveedor</th>
+                    <th class="text-center" style="background: #529c43; color: white; border-radius: 0 15px 0 0;">Detalles</th>
                 </tr>
             </thead>
             <tbody>
                 {% for gasto in gastos %}
                 <tr>
+                    <td style="background: #f1f1f1;">{{ gasto.proveedor }}</td>
                     <td style="background: #f1f1f1;">{{ gasto.description }}</td>
                     <td style="background: #f1f1f1;">{{ gasto.receipt_folio }}</td>
                     <td style="background: #f1f1f1;">{{ gasto.date|date:"d/m/Y" }}</td>
-                    <td style="background: #f1f1f1;">${{ gasto.sub_total }}</td>
-                    <td style="background: #f1f1f1;">${{ gasto.tax }}</td>
-                    <td style="background: #f1f1f1;">${{ gasto.total }}</td>
-                    <td style="background: #f1f1f1;">{{ gasto.supplier.name }}</td>
+                    <td style="background: #f1f1f1;">${{ gasto.sub_total|floatformat:2|intcomma }}</td>
+                    <td style="background: #f1f1f1;">${{ gasto.tax|floatformat:2|intcomma }}</td>
+                    <td style="background: #f1f1f1;">${{ gasto.total|floatformat:2|intcomma }}</td>
+                    <td style="background: #f1f1f1;" class="text-center">
+                        <a href="{% url 'expenses:detail' gasto.id %}" class="text-success" title="Ver" style="font-size: 24px;">🔍</a>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="7" style="background: #f9f9f9;">No hay gastos registrados para esta categoría.</td>
+                    <td colspan="8" style="background: #f9f9f9;">No hay gastos registrados para esta categoría.</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -48,3 +53,4 @@
     </div>
 </div>
 {% endblock %}
+

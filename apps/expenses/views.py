@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ExpenseForm
 from .models import Expense
 from datetime import datetime
@@ -45,8 +45,19 @@ def create(request):
 
 
 def detail(request, pk):
-    gasto = Expense.objects.get(pk=pk)
-    return render(request, 'expenses/detail.html', {'gasto': gasto})
+    expense = get_object_or_404(Expense, pk=pk)
+    if request.method == 'POST':
+        form = ExpenseForm(request.POST, instance=expense)
+        if form.is_valid():
+            form.save()
+            return redirect('expenses:index')
+    else:
+        form = ExpenseForm(instance=expense)
+
+    return render(request, 'expenses/detail.html', {
+        'form': form,
+        'expense': expense
+    })
 
 def detail_group(request, tipo):
     gastos = Expense.objects.filter(type__name=tipo).order_by('-date')
@@ -54,3 +65,8 @@ def detail_group(request, tipo):
         'gastos': gastos,
         'tipo': tipo
     })
+
+def delete(request, pk):
+    expense = get_object_or_404(Expense, pk=pk)
+    expense.delete()
+    return redirect('expenses:index')

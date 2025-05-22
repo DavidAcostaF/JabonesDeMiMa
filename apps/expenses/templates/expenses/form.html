@@ -11,6 +11,12 @@
         {% csrf_token %}
         {{ form.non_field_errors }}
 
+        <!-- Fila: Proveedor -->
+        <div class="mb-4 text-start">
+            <label style="color: #529c43; font-weight: bold;">Proveedor</label>
+            {{ form.proveedor }}
+        </div>
+
         <!-- Fila: Folio -->
         <div class="mb-4 text-start">
             <label style="color: #529c43; font-weight: bold;">Folio del comprobante</label>
@@ -51,11 +57,7 @@
             {{ form.total }}
         </div>
 
-        <!-- Fila: Proveedor -->
-        <div class="mb-4 text-start">
-            <label style="color: #529c43; font-weight: bold;">Proveedor</label>
-            {{ form.supplier }}
-        </div>
+        
 
         <!-- Botones -->
         <div class="d-flex justify-content-between mt-5">
