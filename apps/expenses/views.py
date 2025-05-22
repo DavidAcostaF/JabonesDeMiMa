@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from .forms import ExpenseForm
 from .models import Expense
 from datetime import datetime
@@ -37,6 +38,7 @@ def create(request):
         form = ExpenseForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, '¡Gasto registrado exitosamente!')
             return redirect('expenses:index') 
     else:
         form = ExpenseForm()
@@ -50,6 +52,7 @@ def detail(request, pk):
         form = ExpenseForm(request.POST, instance=expense)
         if form.is_valid():
             form.save()
+            messages.success(request, '¡Gasto modificado correctamente!')
             return redirect('expenses:index')
     else:
         form = ExpenseForm(instance=expense)
@@ -69,4 +72,5 @@ def detail_group(request, tipo):
 def delete(request, pk):
     expense = get_object_or_404(Expense, pk=pk)
     expense.delete()
+    messages.success(request, '¡Gasto eliminado exitosamente!')
     return redirect('expenses:index')
