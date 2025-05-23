@@ -67,7 +67,6 @@ class SalesReportGenerator:
 
         start_date_parsed = parse_date_aware(start_date)
         end_date_parsed = parse_date_aware(end_date)
-
         # Construcción del filtro
         if start_date_parsed and end_date_parsed:
             query &= Q(date__range=(start_date_parsed, end_date_parsed))
@@ -75,6 +74,11 @@ class SalesReportGenerator:
             query &= Q(date__gte=start_date_parsed)
         elif end_date_parsed:
             query &= Q(date__lte=end_date_parsed)
+        if self.filters.get('client'):
+            query &= Q(client__icontains=self.filters.get('client'))
+        if self.filters.get('platform'):
+            query &= Q(platform=self.filters.get('platform'))
+
         data = Sale.objects.filter(query).annotate(
             fecha=ToCharTZ("date", timezone, "DD/MM/YYYY"),
             tax_f=Coalesce(Cast('tax', FloatField()), 0.0),
@@ -91,7 +95,7 @@ class SalesReportGenerator:
             'subtotal_f',
             'total_f'
         )
-
+        print("Data", data)
         return list(data)
     
     # receipt_folio = models.CharField(max_length=100,unique=True,error_messages={'unique': 'Ya existe un registro con este folio.'})
@@ -108,7 +112,7 @@ class SalesReportGenerator:
 
 def parse_date_aware(date_str):
     try:
-        dt = datetime.strptime(date_str, "%Y-%m-%d")
+        dt = datetime.strptime(date_str, "%d-%m-%Y")
         return make_aware(dt, timezone=ZoneInfo(timezone))
     except (ValueError, TypeError):
         return None

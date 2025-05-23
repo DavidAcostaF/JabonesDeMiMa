@@ -3,7 +3,8 @@ from .models import Sale
 import django_filters
 
 sale_fields = {
-    
+    "client":{"label":"Cliente"},
+    "platform":{"label":"Plataforma"},
 }
 class SaleFilter(AbstractFilter):
     fecha = django_filters.DateFromToRangeFilter(
