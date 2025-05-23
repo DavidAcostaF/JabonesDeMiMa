@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="col" style="text-align: center;">
+    <div class="row">
+        <div class="col">
+            <h1 style="background: #529c43; color: #ffffff; text-align: center; font-family: 'Lexend Deca', sans-serif; padding: 10px; border-radius: 15px; margin-right: 35px; margin-left: 25px; font-size: 30px;">Productos</h1>
+            
+            <!-- Filtros -->
+            <div style="background: #ffffff; border: 2px solid #529c43; border-radius: 15px; margin: 20px 35px 0 25px;">
+                <div style="padding: 15px;">
+                    {% include 'filter.html' %}
+                </div>
+            </div>
+
+            <!-- Tabla de productos -->
+            <div class="table-responsive" style="padding: 0px 30px;">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="background: #529c43; font-family: 'Inter', sans-serif; color: #ffffff; font-size: 15px; padding: 12px;">Stock</th>
+                            <th class="text-center" style="background: #529c43; font-family: 'Inter', sans-serif; color: #ffffff; font-size: 15px; padding: 12px;">Nombre</th>
+                            <th class="text-center" style="background: #529c43; font-family: 'Inter', sans-serif; color: #ffffff; font-size: 15px; padding: 12px;">Precio (MXN)</th>
+                            <th class="text-center" style="background: #529c43; font-family: 'Inter', sans-serif; color: #ffffff; font-size: 15px; padding: 12px;">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <td style="background: #f1f1f1; font-family: 'Inter', sans-serif; padding: 10px; text-align: center;">
+                                <span style="color: rgb(77, 77, 77);">{{ product.stock }}</span>
+                            </td>
+                            <td style="background: #f1f1f1; font-family: 'Inter', sans-serif; padding: 10px; text-align: left;">
+                                <span style="color: rgb(77, 77, 77);">{{ product.name }}</span>
+                            </td>
+                            <td style="background: #f1f1f1; font-family: 'Inter', sans-serif; padding: 10px; text-align: right;">
+                                <span style="color: rgb(77, 77, 77);">{{ product.price }}</span>
+                            </td>
+                            <td style="background: #f1f1f1; padding: 6px; text-align: center;">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="{% url 'products:detail' pk=product.id %}" class="text-success" title="Ver detalles" style="font-size: 18px;">
+                                        <i class="far fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'products:update' pk=product.id %}" class="text-primary" title="Editar producto" style="font-size: 18px;">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="text-danger" title="Eliminar producto" data-bs-toggle="modal" data-bs-target="#delete-modal" onclick="destroy('{% url 'products:delete' product.pk %}')" style="font-size: 18px;">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center" style="padding: 20px; font-family: 'Inter', sans-serif;">No hay productos disponibles.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    {% include 'pagination.html' %}
+
+    <!-- Botón Agregar -->
+    <div class="d-flex justify-content-center" style="margin-top: 40px; margin-bottom: 20px;">
+        <a href="{% url 'products:create' %}" class="btn btn-primary" style="background: #529c43; border-radius: 15px; padding: 15px; font-size: 15px; font-family: 'Lexend Deca', sans-serif; width: 300px; border-style: none;">Agregar</a>
+    </div>
+</div>
+
+<!-- Modal de eliminación -->
+{% include 'delete.html' %}
+
+{% endblock %}

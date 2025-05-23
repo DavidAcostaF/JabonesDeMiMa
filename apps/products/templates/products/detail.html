@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="text-center mt-1 mb-4 p-3" style="background: #529c43; color: #ffffff; font-family: 'Lexend Deca', sans-serif; border-radius: 15px; font-size: 25px;">
+        Detalles del Producto
+    </h1>
+
+    <!-- Datos del Producto -->
+    <div class="mx-4 mb-4 p-3" style="border: 2px solid #529c43; border-radius: 15px;">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <p class="mb-1 fw-bold" style="color: #529c43; font-family: 'Lexend Deca', sans-serif;">Nombre:</p>
+                <div class="p-3 rounded" style="background: #e3f5df;">{{ product.name }}</div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <p class="mb-1 fw-bold" style="color: #529c43; font-family: 'Lexend Deca', sans-serif;">Precio:</p>
+                <div class="p-3 rounded" style="background: #e3f5df;">${{ product.price|floatformat:2 }}</div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <p class="mb-1 fw-bold" style="color: #529c43; font-family: 'Lexend Deca', sans-serif;">Stock Disponible:</p>
+                <div class="p-3 rounded" style="background: #e3f5df;">{{ product.stock }}</div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <p class="mb-1 fw-bold" style="color: #529c43; font-family: 'Lexend Deca', sans-serif;">Categoría:</p>
+                <div class="p-3 rounded" style="background: #e3f5df;">{{ product.category }}</div>
+            </div>
+        </div>
+    </div>
+
+   <!-- Tabla de Insumos del Producto -->
+<div class="mx-4 mb-4">
+    <h2 class="text-center mb-4 p-2" style="background: #529c43; color: #ffffff; border-radius: 15px; font-family: 'Lexend Deca', sans-serif; font-size: 22px;">
+        Insumos Utilizados
+    </h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead style="background: #529c43; color: #ffffff; font-family: 'Inter', sans-serif;">
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for input in ingredients %}
+                <tr style="background: #f1f1f1; font-family: 'Inter', sans-serif;">
+                    <td class="p-3">{{ input.ingredient.name }}</td>
+                    <td class="p-3">{{ input.amount }}</td>
+                    <td class="p-3">{{ input.ingredient.measure_unit }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="p-3">Este producto no tiene insumos registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <!-- Botón volver -->
+    <div class="d-flex justify-content-center mb-5">
+        <a href="{% url 'products:index' %}" class="btn" style="background: #529c43; color: #ffffff; font-family: 'Lexend Deca', sans-serif; font-size: 22px; border-radius: 15px; width: 250px;">
+            Volver
+        </a>
+    </div>
+</div>
+{% endblock %}
