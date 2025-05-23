@@ -28,7 +28,7 @@ class Sale(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
     platform = models.ForeignKey(SalePlatform, on_delete=models.CASCADE)
     address = models.CharField(max_length=100)
-    tax = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
+    tax = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True,default=0.16)
     client = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
 

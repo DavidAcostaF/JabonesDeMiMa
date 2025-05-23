@@ -24,6 +24,11 @@ class SaleIndexView(FilterView):
     filterset_class = SaleFilter
     context_object_name = 'sales'   
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['report_url'] = "reports:sales"
+        return context
+    
 class SaleCreateView(SuccessMessageMixin,CreateView):
     model = Sale
     form_class = SaleForm
