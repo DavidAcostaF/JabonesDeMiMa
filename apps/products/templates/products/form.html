@@ -84,6 +84,23 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for form in formset %}
+                            <tr>
+                                <td>
+                                    {{ form.ingredient }}
+                                    {{ form.id }}
+                                    {{ form.product }}
+                                </td>
+                                <td>
+                                    {{ form.amount }}
+                                </td>
+                                <td>
+                                    {{ form.DELETE }}
+                                    <i class="far fa-star remove-product"
+                                    style="color: rgba(255,255,255,0); background: url('{% static "assets/img/Botón Eliminar.png" %}') no-repeat; font-size: 24px; cursor: pointer;"></i>
+                                </td>
+                            </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

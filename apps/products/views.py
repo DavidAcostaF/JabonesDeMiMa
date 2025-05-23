@@ -63,30 +63,28 @@ class ProductIndexView(FilterView):
 class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
-    template_name = 'products/form.html'
-    success_url = reverse_lazy('products:index')
+    template_name = "products/form.html"
+    success_url = reverse_lazy("products:index")
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        ProductIngredientFormSet = inlineformset_factory(
-            Product, ProductIngredient, form=ProductIngredientForm,
-            extra=0, can_delete=True
-        )
-        data['action_type'] = "Actualizar"
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
-            data['formset'] = ProductIngredientFormSet(self.request.POST, instance=self.object)
+            context["formset"] = ProductIngredientFormSet(self.request.POST, instance=self.object)
         else:
-            data['formset'] = ProductIngredientFormSet(instance=self.object)
-        return data
+            context["formset"] = ProductIngredientFormSet(instance=self.object)
+
+        context["ingredients"] = Ingredient.objects.all()
+        context["action_type"] = "Actualizar"
+        return context
 
     def form_valid(self, form):
         context = self.get_context_data()
-        formset = context['formset']
+        formset = context["formset"]
+
         if formset.is_valid():
+            form.formset = formset
             self.object = form.save()
-            formset.instance = self.object
-            formset.save()
-            return super().form_valid(form)
+            return redirect(self.success_url)
         else:
             return self.render_to_response(self.get_context_data(form=form))
 

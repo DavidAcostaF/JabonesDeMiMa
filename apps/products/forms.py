@@ -1,34 +1,31 @@
 from django import forms
-from django.forms import inlineformset_factory, modelformset_factory
-from .models import Product, ProductIngredient, Ingredient
-
+from django.forms import inlineformset_factory
+from .models import Product, ProductIngredient
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'price', 'stock', 'category']
 
-    # Aquí inyectaremos el formset desde la vista
     formset = None
 
     def save(self, commit=True):
         product = super().save(commit=commit)
 
-        # Si tiene un formset asociado, lo guarda
         formset = getattr(self, 'formset', None)
         if formset and commit:
-            for ingredient_form in formset:
-                if (ingredient_form.cleaned_data and 
-                    not ingredient_form.cleaned_data.get('DELETE', False) and
-                    ingredient_form.cleaned_data.get('ingredient') and
-                    ingredient_form.cleaned_data.get('amount')):
+            instances = formset.save(commit=False)
 
-                    ingredient = ingredient_form.save(commit=False)
-                    ingredient.product = product
-                    ingredient.save()
+            # Guardar nuevos y modificados
+            for instance in instances:
+                instance.product = product
+                instance.save()
 
-            return product
+            # Eliminar marcados como DELETE
+            for obj in formset.deleted_objects:
+                obj.delete()
 
+        return product
 
 class ProductIngredientForm(forms.ModelForm):
     class Meta:
@@ -39,13 +36,10 @@ class ProductIngredientForm(forms.ModelForm):
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'min': 0}),
         }
 
-
-# Formset con eliminación habilitada
 ProductIngredientFormSet = inlineformset_factory(
     Product,
     ProductIngredient,
     form=ProductIngredientForm,
     extra=0,
     can_delete=True,
-    validate_min=False  
 )
