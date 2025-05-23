@@ -15,14 +15,13 @@ class ExpenseForm(forms.ModelForm):
         })
     )
 
-    type = forms.ChoiceField(
-        label="Tipo de gasto",
-        choices=[],
-        required=False,
-        widget=forms.Select(attrs={
-            'class': 'form-control',
-            'style': 'padding: 12px; font-size: 27px; font-family: Lexend Deca, sans-serif; border-radius: 15px; border: 2px solid #529c43; color: #529c43',
-        })
+    type = forms.CharField(
+    label="Tipo de gasto",
+    required=True,
+    widget=forms.Select(attrs={
+        'class': 'form-control',
+        'style': 'padding: 12px; font-size: 27px; font-family: Lexend Deca, sans-serif; border-radius: 15px; border: 2px solid #529c43; color: #529c43',
+    })
     )
 
     def __init__(self, *args, **kwargs):
@@ -34,7 +33,8 @@ class ExpenseForm(forms.ModelForm):
         # Generamos las opciones de tipo existentes + "otra"
         opciones = [(str(et.id), et.name) for et in ExpenseType.objects.all()]
         opciones.append(("otra", "Otra (crear nueva)"))
-        self.fields['type'].choices = [("", "Selecciona una categoría")] + opciones
+        # Construye manualmente el <select>
+        self.fields['type'].widget.choices = [("", "Selecciona una categoría")] + opciones
 
         # Establecer valor inicial si es edición
         if self.instance and self.instance.pk and self.instance.type:
@@ -47,8 +47,11 @@ class ExpenseForm(forms.ModelForm):
         subtotal = cleaned_data.get('sub_total')
         total = cleaned_data.get('total')
 
-        if tipo == 'otra' and not nueva:
-            self.add_error('nueva_categoria', 'Debes escribir un nombre para la nueva categoría.')
+        if tipo == 'otra':
+            if not nueva:
+                self.add_error('nueva_categoria', 'Debes escribir un nombre para la nueva categoría.')
+        elif not isinstance(tipo, ExpenseType):
+            self.add_error('type', 'Debes seleccionar una categoría válida.')
 
         if subtotal is not None and subtotal <= 0:
             self.add_error('sub_total', 'El subtotal debe ser mayor a 0.')
@@ -79,10 +82,17 @@ class ExpenseForm(forms.ModelForm):
 
     def clean_type(self):
         value = self.cleaned_data.get("type")
+
+        if not value:
+            raise forms.ValidationError("Debes seleccionar una categoría o crear una nueva.")
+
         if value == "otra":
+            # No devolver nada todavía, lo manejamos en clean()
             return value
+
         try:
-            return ExpenseType.objects.get(id=int(value))
+            tipo = ExpenseType.objects.get(id=int(value))
+            return tipo
         except (ExpenseType.DoesNotExist, ValueError, TypeError):
             raise forms.ValidationError("Categoría inválida.")
 
