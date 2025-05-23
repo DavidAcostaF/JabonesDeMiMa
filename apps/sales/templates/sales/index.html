@@ -60,11 +60,39 @@
     {% include 'pagination.html' %}
 
     <!-- Botón inferior único -->
-    <div class="d-flex justify-content-center" style="margin-top: 40px; margin-bottom: 20px;">
-        <a href="{% url 'sales:create' %}" class="btn btn-primary" style="background: #529c43; border-radius: 15px; padding: 15px; font-size: 15px; font-family: 'Lexend Deca', sans-serif; width: 300px; border-style: none;">Agregar</a>
+    <div class="d-flex justify-content-center" style="margin-top: 40px; margin-bottom: 20px; gap: 20px;">
+        <button id="download_button" class="btn btn-primary" style="background: #529c43; border-radius: 15px; padding: 15px; font-size: 15px; font-family: 'Lexend Deca', sans-serif; width: 300px; border-style: none;">
+            Generar reporte
+        </button>
+        <a href="{% url 'sales:create' %}" class="btn btn-primary" style="background: #529c43; border-radius: 15px; padding: 15px; font-size: 15px; font-family: 'Lexend Deca', sans-serif; width: 300px; border-style: none;">
+            Agregar
+        </a>
     </div>
+
 </div>
+
+                <div id="overlay-spinner" class="overlay-spinner d-flex flex-column align-items-center justify-content-center ">
+                    <div class="row">
+                        <div class="spinner-border" role="status" style="width: 5rem; height: 5rem; z-index: 20;">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <strong class="table_tittle">Cargando...</strong>
+                    </div>
+                </div>
 
     {% include 'delete.html'%}
 
 {% endblock %}
+{% block scripts %} 
+    <script src="{% static 'assets/reports/download_report.js' %}"></script>
+    <script>
+        document.getElementById("download_button").addEventListener("click", function() {
+            generate_report("{% url report_url %}", "Ventas.csv");
+        });
+
+    </script>
+
+
+{% endblock scripts %}

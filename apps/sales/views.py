@@ -24,6 +24,12 @@ class SaleIndexView(FilterView):
     filterset_class = SaleFilter
     context_object_name = 'sales'   
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['report_url'] = "reports:sales"
+        
+        return context
+    
 class SaleCreateView(SuccessMessageMixin,CreateView):
     model = Sale
     form_class = SaleForm
@@ -35,6 +41,7 @@ class SaleCreateView(SuccessMessageMixin,CreateView):
         data = super().get_context_data(**kwargs)
         data['formset'] = kwargs.get('formset', DetalleVentaFormSet())
         data['products'] = Product.objects.all().order_by("name")
+        data["action_type"] = "Crear"
         return data
 
     def post(self, request, *args, **kwargs):
@@ -68,7 +75,7 @@ class SaleUpdateView(SuccessMessageMixin,UpdateView):
             data['formset'] = DetalleVentaFormSet(self.request.POST, instance=self.object)
         else:
             data['formset'] = DetalleVentaFormSet(instance=self.object)
-
+        data["action_type"] = "Actualizar"
         data['products'] = Product.objects.all().order_by("name")
         return data
     
