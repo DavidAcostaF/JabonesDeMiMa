@@ -1,8 +1,10 @@
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
-from .models import Product
-from .forms import ProductForm, ProductIngredientFormSet
+from django_filters.views import FilterView
+from apps.products.filters import ProductFilter
+from .models import Ingredient, Product, ProductIngredient
+from .forms import ProductForm, ProductIngredientForm, ProductIngredientFormSet
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.forms import inlineformset_factory
@@ -12,36 +14,49 @@ from django.views.generic import DetailView
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'products/form.html'  # Asegúrate de que este sea el template correcto
-    success_url = reverse_lazy('products:index')  # Cambia según tu ruta de éxito
+    template_name = 'products/form.html'
+    success_url = reverse_lazy('products:index')
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        formset = ProductIngredientFormSet()
+        formset = ProductIngredientFormSet(prefix='ingredients')
         return render(request, self.template_name, {
             'form': form,
-            'formset': formset
+            'formset': formset,
+            'ingredients': Ingredient.objects.all().order_by('name')
         })
-
-    def post(self, request, *args, **kwargs):
+    
+    def post(self, request, *args, **kwargs): 
         form = self.form_class(request.POST)
-        formset = ProductIngredientFormSet(request.POST)
-
-        form.formset = formset  # Importante: pasa el formset al form como en SaleForm
+        formset = ProductIngredientFormSet(request.POST, prefix='ingredients')
 
         if form.is_valid() and formset.is_valid():
-            form.save()
+            product = form.save()
+            for ingredient_form in formset:
+                # Saltar formularios vacíos o marcados para eliminar
+                if (ingredient_form.cleaned_data and 
+                    not ingredient_form.cleaned_data.get('DELETE') and 
+                    ingredient_form.cleaned_data.get('ingredient') and 
+                    ingredient_form.cleaned_data.get('amount')):
+
+                    ingredient = ingredient_form.save(commit=False)
+                    ingredient.product = product
+                    ingredient.save()
             return redirect(self.success_url)
 
         return render(request, self.template_name, {
             'form': form,
-            'formset': formset
+            'formset': formset,
+            'ingredients': Ingredient.objects.all().order_by('name')
         })
+
     
-class ProductIndexView(ListView):
+class ProductIndexView(FilterView):
     model = Product
     template_name = 'products/index.html'  # Asegúrate de crear este template
     context_object_name = 'products'
+    paginate_by = 7
+    filterset_class = ProductFilter
 
 class ProductUpdateView(UpdateView):
     model = Product

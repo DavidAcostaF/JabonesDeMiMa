@@ -11,6 +11,9 @@ class Command(BaseCommand):
         call_command("seed_sale_platforms")
         self.stdout.write(f"seed_sale_platforms: {time.time() - start}s")
 
+        call_command("seed_ingredients")
+        self.stdout.write(f"seed_ingredients: {time.time() - start}s")
+
         call_command("seed_product_categories")
         self.stdout.write(f"seed_product_categories: {time.time() - start}s")
         

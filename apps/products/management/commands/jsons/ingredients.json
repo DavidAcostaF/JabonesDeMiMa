@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Aceite de coco",
+    "measure_unit": "ml",
+    "stock": 5000
+  },
+  {
+    "name": "Sosa cáustica",
+    "measure_unit": "g",
+    "stock": 2500
+  },
+  {
+    "name": "Agua destilada",
+    "measure_unit": "ml",
+    "stock": 10000
+  },
+  {
+    "name": "Aceite de oliva",
+    "measure_unit": "ml",
+    "stock": 3000
+  },
+  {
+    "name": "Esencia de lavanda",
+    "measure_unit": "ml",
+    "stock": 200
+  },
+  {
+    "name": "Colorante natural",
+    "measure_unit": "g",
+    "stock": 150
+  }
+]
