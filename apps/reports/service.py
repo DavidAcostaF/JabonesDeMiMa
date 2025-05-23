@@ -9,6 +9,11 @@ from django.db.models import Value
 from apps.sales.models import Sale
 from django.db.models import FloatField
 from django.db.models.functions import Cast, Coalesce
+from datetime import datetime
+from zoneinfo import ZoneInfo
+from django.utils.timezone import make_aware
+
+timezone = 'America/Mexico_City'
 
 class SalesReportGenerator:
     """
@@ -31,7 +36,6 @@ class SalesReportGenerator:
         output, workbook = ReportGenerator.init_excel()
         ws_list = []
         data = self.get_sales()
-        print("zxczxczxcData", data)
         ws_list.append({
             "ws_name": "Sales",
             "columns": [
@@ -56,15 +60,21 @@ class SalesReportGenerator:
 
     def get_sales(self):
         query = Q()
-        timezone = 'America/Mexico_City'
 
-        if self.filters['start_date'] and self.filters['end_date']:
-            query &= Q(date__range=(self.filters['start_date'], self.filters['end_date']))
-        elif self.filters['start_date']:
-            query &= Q(date__date=self.filters['start_date'])
-        elif self.filters['end_date']:
-            query &= Q(date__date=self.filters['end_date'])
+    # Obtener los strings
+        start_date = self.filters.get('start_date')
+        end_date = self.filters.get('end_date')
 
+        start_date_parsed = parse_date_aware(start_date)
+        end_date_parsed = parse_date_aware(end_date)
+
+        # Construcción del filtro
+        if start_date_parsed and end_date_parsed:
+            query &= Q(date__range=(start_date_parsed, end_date_parsed))
+        elif start_date_parsed:
+            query &= Q(date__gte=start_date_parsed)
+        elif end_date_parsed:
+            query &= Q(date__lte=end_date_parsed)
         data = Sale.objects.filter(query).annotate(
             fecha=ToCharTZ("date", timezone, "DD/MM/YYYY"),
             tax_f=Coalesce(Cast('tax', FloatField()), 0.0),
@@ -94,3 +104,11 @@ class SalesReportGenerator:
     # tax = models.DecimalField(max_digits=10, decimal_places=2, null=True,blank=True)
     # client = models.CharField(max_length=100)
     # user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
+
+
+def parse_date_aware(date_str):
+    try:
+        dt = datetime.strptime(date_str, "%Y-%m-%d")
+        return make_aware(dt, timezone=ZoneInfo(timezone))
+    except (ValueError, TypeError):
+        return None

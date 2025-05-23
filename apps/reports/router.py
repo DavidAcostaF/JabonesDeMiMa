@@ -7,15 +7,15 @@ router = Router()
 
 
 @router.get("sales/",url_name="sales")
-def download_sales_report(request, start_date: date = None, end_date: date = None):
+def download_sales_report(request, fecha_min: str = None, fecha_max: str = None):
     """
     Endpoint to download sales report.
     """
     filters = {
-        "start_date": start_date,
-        "end_date": end_date
+        "start_date": fecha_min,
+        "end_date": fecha_max
     }
+    print("Filters", filters)
     result = SalesReportGenerator(filters).generate_report()
-    print(result)
     return result
   
