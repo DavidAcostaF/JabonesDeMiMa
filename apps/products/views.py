@@ -31,6 +31,7 @@ class ProductCreateView(CreateView):
         formset = ProductIngredientFormSet(request.POST, prefix='ingredients')
 
         if form.is_valid() and formset.is_valid():
+            form.formset = formset
             product = form.save()
             for ingredient_form in formset:
                 # Saltar formularios vacíos o marcados para eliminar

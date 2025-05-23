@@ -20,6 +20,7 @@
 
     <form method="post">
         {% csrf_token %}
+        {{ formset.management_form }}
 
         <!-- Formulario principal de Producto -->
         <div class="row g-4 px-4">
@@ -83,7 +84,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{ formset.management_form }}
                 </tbody>
             </table>
         </div>

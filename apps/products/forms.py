@@ -47,5 +47,5 @@ ProductIngredientFormSet = inlineformset_factory(
     form=ProductIngredientForm,
     extra=1,
     can_delete=True,
-    validate_min=False  # 🔧 evita requerir al menos un form
+    validate_min=False  
 )
