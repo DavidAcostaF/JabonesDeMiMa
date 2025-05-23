@@ -62,7 +62,17 @@ def detail(request, pk):
     if request.method == 'POST':
         form = ExpenseForm(request.POST, instance=expense)
         if form.is_valid():
-            form.save()
+            nueva_categoria = form.cleaned_data.get('nueva_categoria')
+            tipo_seleccionado = form.cleaned_data.get('type')
+
+            if tipo_seleccionado == 'otra' and nueva_categoria:
+                tipo, _ = ExpenseType.objects.get_or_create(name=nueva_categoria)
+            else:
+                tipo = tipo_seleccionado  # ya es instancia por clean_type
+
+            gasto = form.save(commit=False)
+            gasto.type = tipo
+            gasto.save()
             messages.success(request, '¡Gasto modificado correctamente!')
             return redirect('expenses:index')
     else:

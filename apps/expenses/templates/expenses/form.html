@@ -8,74 +8,99 @@
     </h1>
 
     <form method="post" style="width: 95%; margin: 0 auto;">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
+    {% csrf_token %}
+    {{ form.non_field_errors }}
 
-        <!-- Fila: Proveedor -->
-        <div class="mb-4 text-start">
-            <label style="color: #529c43; font-weight: bold;">Proveedor</label>
-            {{ form.proveedor }}
-        </div>
+    <!-- Fila: Proveedor -->
+    <div class="mb-4 text-start">
+        <label style="color: #529c43; font-weight: bold;">Proveedor</label>
+        {{ form.proveedor }}
+        {% for error in form.proveedor.errors %}
+            <div class="text-danger" style="font-size: 16px;">{{ error }}</div>
+        {% endfor %}
+    </div>
 
-        <!-- Fila: Folio -->
-        <div class="mb-4 text-start">
-            <label style="color: #529c43; font-weight: bold;">Folio del comprobante</label>
-            {{ form.receipt_folio }}
-        </div>
+    <!-- Fila: Folio -->
+    <div class="mb-4 text-start">
+        <label style="color: #529c43; font-weight: bold;">Folio del comprobante</label>
+        {{ form.receipt_folio }}
+        {% for error in form.receipt_folio.errors %}
+            <div class="text-danger" style="font-size: 16px;">{{ error }}</div>
+        {% endfor %}
+    </div>
 
-        <!-- Fila: Descripción -->
-        <div class="mb-4 text-start">
-            <label style="color: #529c43; font-weight: bold;">Concepto</label>
-            {{ form.description }}
-        </div>
+    <!-- Fila: Descripción -->
+    <div class="mb-4 text-start">
+        <label style="color: #529c43; font-weight: bold;">Concepto</label>
+        {{ form.description }}
+        {% for error in form.description.errors %}
+            <div class="text-danger" style="font-size: 16px;">{{ error }}</div>
+        {% endfor %}
+    </div>
 
-        <!-- Fila combinada: Categoría - Fecha - IVA -->
-        <div class="row mb-4 text-start">
-            <div class="col-md-4">
-                <label style="color: #529c43; font-weight: bold;">Categoría</label>
-                {{ form.type }}
-                <div class="mb-4 text-start" id="nueva-categoria-contenedor" style="display: none;">
-                    <label style="color: #529c43; font-weight: bold;">¿Nueva categoría?</label>
-                    {{ form.nueva_categoria }}
-                    <small class="form-text text-muted">Si ingresas una nueva, se registrará automáticamente.</small>
-                </div>
+    <!-- Fila combinada: Categoría - Fecha - IVA -->
+    <div class="row mb-4 text-start">
+        <div class="col-md-4">
+            <label style="color: #529c43; font-weight: bold;">Categoría</label>
+            {{ form.type }}
+            {% for error in form.type.errors %}
+                <div class="text-danger" style="font-size: 16px;">{{ error }}</div>
+            {% endfor %}
+            <div class="mb-4 text-start" id="nueva-categoria-contenedor" style="display: none;">
+                <label style="color: #529c43; font-weight: bold;">¿Nueva categoría?</label>
+                {{ form.nueva_categoria }}
+                {% for error in form.nueva_categoria.errors %}
+                    <div class="text-danger" style="font-size: 16px;">{{ error }}</div>
+                {% endfor %}
+                <small class="form-text text-muted">Si ingresas una nueva, se registrará automáticamente.</small>
             </div>
-            <div class="col-md-4">
-                <label style="color: #529c43; font-weight: bold;">Fecha</label>
-                {{ form.date }}
-            </div>
-            <div class="col-md-4">
-                <label style="color: #529c43; font-weight: bold;">IVA</label>
-                {{ form.tax }}
-            </div>
         </div>
-
-        <!-- Fila: Subtotal -->
-        <div class="mb-4 text-start">
-            <label style="color: #529c43; font-weight: bold;">Subtotal</label>
-            {{ form.sub_total }}
+        <div class="col-md-4">
+            <label style="color: #529c43; font-weight: bold;">Fecha</label>
+            {{ form.date }}
+            {% for error in form.date.errors %}
+                <div class="text-danger" style="font-size: 16px;">{{ error }}</div>
+            {% endfor %}
         </div>
-
-        <!-- Fila: Total -->
-        <div class="mb-4 text-start">
-            <label style="color: #529c43; font-weight: bold;">Total</label>
-            {{ form.total }}
+        <div class="col-md-4">
+            <label style="color: #529c43; font-weight: bold;">IVA</label>
+            {{ form.tax }}
+            {% for error in form.tax.errors %}
+                <div class="text-danger" style="font-size: 16px;">{{ error }}</div>
+            {% endfor %}
         </div>
+    </div>
 
-        
+    <!-- Fila: Subtotal -->
+    <div class="mb-4 text-start">
+        <label style="color: #529c43; font-weight: bold;">Subtotal</label>
+        {{ form.sub_total }}
+        {% for error in form.sub_total.errors %}
+            <div class="text-danger" style="font-size: 16px;">{{ error }}</div>
+        {% endfor %}
+    </div>
 
-        <!-- Botones -->
-        <div class="d-flex justify-content-between mt-5">
-            <a href="{% url 'expenses:index' %}" class="btn text-white"
-               style="background-color: #529c43; border-radius: 15px; font-size: 20px; padding: 10px 100px;">
-                Volver
-            </a>
-            <button type="submit" class="btn text-white"
-               style="background-color: #529c43; border-radius: 15px; font-size: 20px; padding: 10px 100px;">
-                Agregar
-            </button>
-        </div>
-    </form>
+    <!-- Fila: Total -->
+    <div class="mb-4 text-start">
+        <label style="color: #529c43; font-weight: bold;">Total</label>
+        {{ form.total }}
+        {% for error in form.total.errors %}
+            <div class="text-danger" style="font-size: 16px;">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-between mt-5">
+        <a href="{% url 'expenses:index' %}" class="btn text-white"
+           style="background-color: #529c43; border-radius: 15px; font-size: 20px; padding: 10px 100px;">
+            Volver
+        </a>
+        <button type="submit" class="btn text-white"
+           style="background-color: #529c43; border-radius: 15px; font-size: 20px; padding: 10px 100px;">
+            Agregar
+        </button>
+    </div>
+</form>
 </div>
 
 <script>
