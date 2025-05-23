@@ -23,7 +23,8 @@ class ProductCreateView(CreateView):
         return render(request, self.template_name, {
             'form': form,
             'formset': formset,
-            'ingredients': Ingredient.objects.all().order_by('name')
+            'ingredients': Ingredient.objects.all().order_by('name'),
+            "action_type": "Crear"
         })
     
     def post(self, request, *args, **kwargs): 
@@ -69,8 +70,9 @@ class ProductUpdateView(UpdateView):
         data = super().get_context_data(**kwargs)
         ProductIngredientFormSet = inlineformset_factory(
             Product, ProductIngredient, form=ProductIngredientForm,
-            extra=1, can_delete=True
+            extra=0, can_delete=True
         )
+        data['action_type'] = "Actualizar"
         if self.request.POST:
             data['formset'] = ProductIngredientFormSet(self.request.POST, instance=self.object)
         else:
