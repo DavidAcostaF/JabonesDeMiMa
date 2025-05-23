@@ -8,7 +8,7 @@ class Ingredient(models.Model):
     stock = models.IntegerField()
 
     class Meta:
-        db_table = 'ingredient'
+        db_table = 'recipe_ingredient'
         verbose_name = 'Ingredient'
         verbose_name_plural = 'Ingredients'
         ordering = ['id']
